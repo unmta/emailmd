@@ -109,6 +109,31 @@ function renderButtonSegment(segment: Segment, theme: Theme): string {
     </mj-section>`;
 }
 
+function renderImageSegment(segment: Segment, theme: Theme): string {
+  const attrs = segment.attrs!;
+
+  const mjAttrs: string[] = [
+    `src="${attrs.src}"`,
+    `fluid-on-mobile="true"`,
+    `align="${attrs.align || 'center'}"`,
+  ];
+
+  if (attrs.alt) mjAttrs.push(`alt="${attrs.alt}"`);
+  if (attrs.title) mjAttrs.push(`title="${attrs.title}"`);
+  if (attrs.width) {
+    const width = /^\d+$/.test(attrs.width) ? `${attrs.width}px` : attrs.width;
+    mjAttrs.push(`width="${width}"`);
+  }
+  if (attrs.href) mjAttrs.push(`href="${attrs.href}"`);
+  if (attrs['border-radius']) mjAttrs.push(`border-radius="${attrs['border-radius']}"`);
+
+  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+      <mj-column>
+        <mj-image ${mjAttrs.join(' ')} />
+      </mj-column>
+    </mj-section>`;
+}
+
 function segmentToMjml(segment: Segment, theme: Theme): string {
   switch (segment.type) {
     case 'text':
@@ -125,6 +150,8 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
       return renderHrSegment(theme);
     case 'button':
       return renderButtonSegment(segment, theme);
+    case 'image':
+      return renderImageSegment(segment, theme);
   }
 }
 

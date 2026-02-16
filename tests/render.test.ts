@@ -158,6 +158,13 @@ Hello`;
     expect(html).not.toMatch(/<mj-/);
   });
 
+  it('renders a block image without raw img tag', () => {
+    const { html } = render('![Banner](https://example.com/banner.png)');
+    expect(html).toContain('https://example.com/banner.png');
+    expect(html).not.toMatch(/<mj-/);
+    expect(html).not.toContain('EMAILMD:');
+  });
+
   it('returns extracted frontmatter in meta', () => {
     const md = `---
 preheader: Preview

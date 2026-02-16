@@ -126,6 +126,52 @@ The Acme Team
 [Shop Sale](https://example.com){button color="#dc2626"}
 ```
 
+## Images
+
+Block images (standalone paragraph) are automatically rendered as responsive, centered email images:
+
+```markdown
+![Hero banner](https://example.com/hero.jpg)
+```
+
+### Width
+
+Control image width with the attrs syntax:
+
+```markdown
+![Product](https://example.com/product.jpg){width="400"}
+```
+
+### Alignment
+
+Images are centered by default. Override with:
+
+```markdown
+![Photo](https://example.com/photo.jpg){align="left"}
+```
+
+### Rounded corners
+
+```markdown
+![Avatar](https://example.com/avatar.jpg){width="80" border-radius="50%"}
+```
+
+### Linked images
+
+Wrap an image in a link to make it clickable:
+
+```markdown
+[![Shop banner](https://example.com/banner.jpg)](https://example.com/shop)
+```
+
+### Inline images
+
+Images mixed with text in a paragraph are rendered inline:
+
+```markdown
+Feature one with icon ![check](https://example.com/check.png) included.
+```
+
 ## Wrappers
 
 Control the email's outer structure:

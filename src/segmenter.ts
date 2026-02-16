@@ -9,7 +9,7 @@ import {
   MARKER_FOOTER_CLOSE,
 } from './constants.js';
 
-export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'footer' | 'button' | 'hr';
+export type SegmentType = 'text' | 'callout' | 'centered' | 'highlight' | 'footer' | 'button' | 'image' | 'hr';
 
 export interface Segment {
   type: SegmentType;
@@ -67,6 +67,82 @@ function extractButtons(html: string): { html: string; buttons: Segment[] } {
     return placeholder;
   });
   return { html: result, buttons };
+}
+
+// Matches block-level images: <p><img ...></p> or <p><a ...><img ...></a></p>
+// Group 1: <a> attributes (optional, for linked images)
+// Group 2: <img> attributes
+const BLOCK_IMAGE_RE = /<p>\s*(?:<a\s+([^>]*)>\s*)?<img\s+([^>]*)\/?\s*>\s*(?:<\/a>\s*)?<\/p>/g;
+
+function parseHtmlAttrs(attrString: string): Record<string, string> {
+  const attrs: Record<string, string> = {};
+  const re = /([\w-]+)="([^"]*)"/g;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(attrString)) !== null) {
+    attrs[match[1]] = match[2];
+  }
+  return attrs;
+}
+
+function parseImageAttrs(imgAttrString: string, linkAttrString?: string): Record<string, string> | null {
+  const imgAttrs = parseHtmlAttrs(imgAttrString);
+
+  if (!imgAttrs.src) return null;
+
+  const attrs: Record<string, string> = { src: imgAttrs.src };
+
+  if (imgAttrs.alt) attrs.alt = imgAttrs.alt;
+  if (imgAttrs.title) attrs.title = imgAttrs.title;
+  if (imgAttrs.width) attrs.width = imgAttrs.width;
+  if (imgAttrs.align) attrs.align = imgAttrs.align;
+  if (imgAttrs['border-radius']) attrs['border-radius'] = imgAttrs['border-radius'];
+
+  // For linked images, extract href from the <a> tag
+  if (linkAttrString) {
+    const linkAttrs = parseHtmlAttrs(linkAttrString);
+    if (linkAttrs.href) attrs.href = linkAttrs.href;
+    // Pull image-relevant attrs from <a> if not already on <img>
+    if (linkAttrs.width && !imgAttrs.width) attrs.width = linkAttrs.width;
+    if (linkAttrs.align && !imgAttrs.align) attrs.align = linkAttrs.align;
+    if (linkAttrs['border-radius'] && !imgAttrs['border-radius']) attrs['border-radius'] = linkAttrs['border-radius'];
+  }
+
+  return attrs;
+}
+
+function splitOnImages(segments: Segment[]): Segment[] {
+  const result: Segment[] = [];
+
+  for (const seg of segments) {
+    if (seg.type !== 'text') {
+      result.push(seg);
+      continue;
+    }
+
+    let text = seg.content;
+    const re = new RegExp(BLOCK_IMAGE_RE.source, 'g');
+    let match: RegExpExecArray | null;
+    let lastIndex = 0;
+
+    while ((match = re.exec(text)) !== null) {
+      const attrs = parseImageAttrs(match[2], match[1]);
+      if (!attrs) continue;
+
+      const before = text.slice(lastIndex, match.index);
+      if (before.trim()) {
+        result.push({ type: 'text', content: before });
+      }
+      result.push({ type: 'image', content: attrs.alt || '', attrs });
+      lastIndex = match.index + match[0].length;
+    }
+
+    const remaining = text.slice(lastIndex);
+    if (remaining.trim()) {
+      result.push({ type: 'text', content: remaining });
+    }
+  }
+
+  return result;
 }
 
 function splitOnDirectives(html: string): Segment[] {
@@ -169,5 +245,6 @@ export function segment(html: string): Segment[] {
   const { html: htmlWithPlaceholders, buttons } = extractButtons(html);
   const segments = splitOnDirectives(htmlWithPlaceholders);
   const withButtons = splitOnButtonPlaceholders(segments, buttons);
-  return splitOnHr(withButtons);
+  const withImages = splitOnImages(withButtons);
+  return splitOnHr(withImages);
 }
