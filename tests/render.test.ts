@@ -78,6 +78,25 @@ Hello`;
     expect(html).toContain('border');
   });
 
+  it('renders inline code with monospace font styling', () => {
+    const { html } = render('Use the `render()` function.');
+    expect(html).toContain('<code>');
+    expect(html).toContain('render()');
+    expect(html).toContain('monospace');
+  });
+
+  it('renders fenced code blocks', () => {
+    const { html } = render('```\nconst x = 1;\n```');
+    expect(html).toContain('<pre');
+    expect(html).toContain('const x = 1;');
+  });
+
+  it('renders fenced code blocks with language class', () => {
+    const { html } = render('```typescript\nconst x: number = 1;\n```');
+    expect(html).toContain('<pre');
+    expect(html).toContain('const x: number = 1;');
+  });
+
   it('returns extracted frontmatter in meta', () => {
     const md = `---
 preheader: Preview

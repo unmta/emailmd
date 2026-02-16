@@ -21,6 +21,9 @@ export function buildHead(theme: Theme, preheader?: string): string {
       h3 { font-size: 20px; font-weight: 600; color: ${theme.headingColor}; margin: 0 0 8px 0; }
       a { color: ${theme.brandColor}; }
       blockquote { border-left: 3px solid ${theme.brandColor}; padding-left: 16px; margin: 0; color: #6b7280; }
+      code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; background-color: ${theme.cardColor}; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+      pre { background-color: ${theme.cardColor}; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 0; }
+      pre code { background-color: transparent; padding: 0; border-radius: 0; font-size: inherit; }
     </mj-style>
     ${preheader ? `<mj-preview>${preheader}</mj-preview>` : ''}
   </mj-head>`;

@@ -71,6 +71,20 @@ export function toPlainText(html: string): string {
     return lines.map((l: string) => `> ${l.trim()}`).join('\n') + '\n';
   });
 
+  // Convert code blocks: <pre><code>...</code></pre> → indented content
+  text = text.replace(/<pre><code[^>]*>([\s\S]*?)<\/code><\/pre>/gi, (_, content) => {
+    const lines = content.split('\n');
+    if (lines.length > 0 && lines[lines.length - 1].trim() === '') {
+      lines.pop();
+    }
+    return '\n' + lines.map((l: string) => `    ${l}`).join('\n') + '\n';
+  });
+
+  // Convert inline code: <code>text</code> → `text`
+  text = text.replace(/<code[^>]*>(.*?)<\/code>/gi, (_, content) => {
+    return '`' + content + '`';
+  });
+
   // Convert paragraphs to double newlines
   text = text.replace(/<\/p>/gi, '\n\n');
   text = text.replace(/<p[^>]*>/gi, '');

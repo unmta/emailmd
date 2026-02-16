@@ -1,7 +1,6 @@
 import { createServer, type IncomingMessage } from 'node:http';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, basename } from 'node:path';
-import { exec } from 'node:child_process';
 import { render } from '../src/index.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -83,7 +82,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, () => {
   const url = `http://localhost:${PORT}`;
   console.log(`\n  EMAIL.md playground running at ${url}\n`);
-  exec(`open ${url}`);
 });
 
 function getHtml(): string {

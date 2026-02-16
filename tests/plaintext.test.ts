@@ -89,6 +89,33 @@ describe('plain text output', () => {
     expect(text).not.toContain('<em>');
   });
 
+  it('converts inline code to backtick-wrapped text', () => {
+    const { text } = render('Use the `render()` function.');
+    expect(text).toContain('`render()`');
+    expect(text).not.toContain('<code>');
+  });
+
+  it('converts fenced code blocks to indented text', () => {
+    const { text } = render('Example:\n\n```\nconst x = 1;\nconsole.log(x);\n```');
+    expect(text).toContain('    const x = 1;');
+    expect(text).toContain('    console.log(x);');
+    expect(text).not.toContain('<pre>');
+    expect(text).not.toContain('<code>');
+  });
+
+  it('preserves HTML entities in code block plain text', () => {
+    const { text } = render('Example:\n\n```\n<div class="foo">\n```');
+    expect(text).toContain('    <div class="foo">');
+  });
+
+  it('handles code blocks alongside other content', () => {
+    const { text } = render('# Example\n\nHere is code:\n\n```\nfoo()\n```\n\nAnd more text.');
+    expect(text).toContain('EXAMPLE');
+    expect(text).toContain('Here is code:');
+    expect(text).toContain('    foo()');
+    expect(text).toContain('And more text.');
+  });
+
   it('contains no HTML tags', () => {
     const { text } = render('# Hello\n\n**Bold** text with a [link](https://example.com).\n\n::: callout\nA callout\n:::');
     expect(text).not.toMatch(/<[^>]+>/);
