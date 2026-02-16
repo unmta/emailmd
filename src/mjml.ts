@@ -60,7 +60,7 @@ function renderCenteredSegment(content: string, theme: Theme): string {
 function renderHighlightSegment(content: string, theme: Theme): string {
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${theme.brandColor}" border-radius="8px" padding="20px 24px">
-        <mj-text font-size="${theme.fontSize}" color="#ffffff" font-weight="600">${content}</mj-text>
+        <mj-text font-size="${theme.fontSize}" color="${theme.buttonTextColor}" font-weight="600">${content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
