@@ -1,0 +1,71 @@
+{
+  "name": "emailmd",
+  "version": "0.1.0",
+  "description": "Markdown to email-safe HTML. Write in markdown, send emails that work everywhere.",
+  "keywords": [
+    "email",
+    "markdown",
+    "html-email",
+    "email-template",
+    "newsletter",
+    "mjml"
+  ],
+  "license": "MIT",
+  "author": "Dan Stevens",
+  "homepage": "https://emailmd.dev",
+  "repository": "github:unmta/emailmd",
+  "bugs": "https://github.com/unmta/emailmd/issues",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "examples": "npx tsx examples/build.ts",
+    "playground": "npx tsx dev/playground.ts"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-container": "^4.0.0",
+    "markdown-it-deflist": "^3.0.0",
+    "markdown-it-emoji": "^3.0.0",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-sub": "^2.0.0",
+    "markdown-it-sup": "^2.0.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "mjml": "^4.18.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-container": "^4.0.0",
+    "@types/node": "^25.2.3",
+    "tsup": "^8.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
