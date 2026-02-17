@@ -12,3 +12,25 @@ A footer renders at the bottom of the email with smaller, muted text:
 ```
 
 The footer is styled with reduced font size and muted colors, appropriate for legal text, unsubscribe links, and company information.
+
+## Parameters
+
+### Alignment
+
+The footer is centered by default. Override with `left` or `right`:
+
+```markdown
+::: footer left
+© 2026 Acme Corp · All rights reserved.
+:::
+```
+
+### Color
+
+Override the text color with `color=`:
+
+```markdown
+::: footer color=#9ca3af
+Legal text here.
+:::
+```

@@ -18,16 +18,17 @@ import { cn } from "@/lib/utils";
 const SNIPPETS: { label: string; description: string; content: string }[] = [
   {
     label: "Callout",
-    description: "Highlighted box for tips or notes",
-    content: `::: callout
-**Pro tip:** You can customize your dashboard in Settings.
+    description: "Highlighted box — supports center, compact, spacious, color=, bg=",
+    content: `::: callout center
+**ABC-123**
+Your confirmation code.
 :::`,
   },
   {
     label: "Highlight",
-    description: "Branded banner with accent background",
-    content: `::: highlight
-Limited time offer — first 100 signups get 50% off!
+    description: "Branded banner — supports center, compact, spacious, color=, bg=",
+    content: `::: highlight center
+**50% OFF** — This weekend only!
 :::`,
   },
   {

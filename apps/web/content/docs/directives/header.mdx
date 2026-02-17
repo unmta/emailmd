@@ -12,3 +12,25 @@ Content rendered above the main body area — typically used for a logo or brand
 ```
 
 The header appears at the very top of the email, before the main content area. It's commonly used for brand logos, navigation links, or a top banner.
+
+## Parameters
+
+### Alignment
+
+The header is centered by default. Override with `left` or `right`:
+
+```markdown
+::: header left
+![Logo](https://example.com/logo.png){width="150"}
+:::
+```
+
+### Color
+
+Override the text color with `color=`:
+
+```markdown
+::: header color=#1e40af
+**Acme Corp**
+:::
+```

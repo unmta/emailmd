@@ -45,10 +45,20 @@ function renderTextSegment(content: string, theme: Theme): string {
     </mj-section>`;
 }
 
-function renderCalloutSegment(content: string, theme: Theme): string {
+function resolvePadding(value: string | undefined): string {
+  if (value === 'compact') return '12px 16px';
+  if (value === 'spacious') return '32px 40px';
+  return '20px 24px';
+}
+
+function renderCalloutSegment(segment: Segment, theme: Theme): string {
+  const align = segment.attrs?.align || 'left';
+  const bgColor = segment.attrs?.bg || theme.cardColor;
+  const textColor = segment.attrs?.color || theme.bodyColor;
+  const padding = resolvePadding(segment.attrs?.padding);
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
-      <mj-column background-color="${theme.cardColor}" border-radius="8px" padding="20px 24px">
-        <mj-text font-size="${theme.fontSize}" color="${theme.bodyColor}" line-height="${theme.lineHeight}">${content}</mj-text>
+      <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
+        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${segment.content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -61,26 +71,34 @@ function renderCenteredSegment(content: string, theme: Theme): string {
     </mj-section>`;
 }
 
-function renderHighlightSegment(content: string, theme: Theme): string {
+function renderHighlightSegment(segment: Segment, theme: Theme): string {
+  const align = segment.attrs?.align || 'left';
+  const bgColor = segment.attrs?.bg || theme.brandColor;
+  const textColor = segment.attrs?.color || theme.buttonTextColor;
+  const padding = resolvePadding(segment.attrs?.padding);
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
-      <mj-column background-color="${theme.brandColor}" border-radius="8px" padding="20px 24px">
-        <mj-text font-size="${theme.fontSize}" color="${theme.buttonTextColor}" font-weight="600">${content}</mj-text>
+      <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
+        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${segment.content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
 
-function renderHeaderSegment(content: string, theme: Theme): string {
+function renderHeaderSegment(segment: Segment, theme: Theme): string {
+  const align = segment.attrs?.align || 'center';
+  const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section padding="32px 32px 24px 32px">
       <mj-column>
-        <mj-text align="center" font-size="13px" color="${theme.bodyColor}" line-height="1.5">${content}</mj-text>
+        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${segment.content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
 
-function renderFooterSegment(content: string, theme: Theme): string {
+function renderFooterSegment(segment: Segment, theme: Theme): string {
+  const align = segment.attrs?.align || 'center';
+  const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section padding="24px 32px 32px 32px">
       <mj-column>
-        <mj-text align="center" font-size="13px" color="${theme.bodyColor}" line-height="1.5">${content}</mj-text>
+        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${segment.content}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -226,15 +244,15 @@ function segmentToMjml(segment: Segment, theme: Theme): string {
     case 'text':
       return renderTextSegment(segment.content, theme);
     case 'callout':
-      return renderCalloutSegment(segment.content, theme);
+      return renderCalloutSegment(segment, theme);
     case 'centered':
       return renderCenteredSegment(segment.content, theme);
     case 'highlight':
-      return renderHighlightSegment(segment.content, theme);
+      return renderHighlightSegment(segment, theme);
     case 'header':
-      return renderHeaderSegment(segment.content, theme);
+      return renderHeaderSegment(segment, theme);
     case 'footer':
-      return renderFooterSegment(segment.content, theme);
+      return renderFooterSegment(segment, theme);
     case 'hr':
       return renderHrSegment(theme);
     case 'button':

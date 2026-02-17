@@ -63,6 +63,116 @@ describe('hero directive', () => {
   });
 });
 
+describe('callout directive with params', () => {
+  it('renders center-aligned callout', () => {
+    const { html } = render('::: callout center\nCentered callout\n:::');
+    expect(html).toContain('Centered callout');
+    expect(html).toContain('text-align:center');
+  });
+
+  it('renders right-aligned callout', () => {
+    const { html } = render('::: callout right\nRight callout\n:::');
+    expect(html).toContain('Right callout');
+    expect(html).toContain('text-align:right');
+  });
+
+  it('renders compact padding on callout', () => {
+    const { html } = render('::: callout compact\nCompact callout\n:::');
+    expect(html).toContain('Compact callout');
+    expect(html).toContain('12px 16px');
+  });
+
+  it('renders spacious padding on callout', () => {
+    const { html } = render('::: callout spacious\nSpacious callout\n:::');
+    expect(html).toContain('Spacious callout');
+    expect(html).toContain('32px 40px');
+  });
+
+  it('renders custom bg color on callout', () => {
+    const { html } = render('::: callout bg=#eff6ff\nCustom bg\n:::');
+    expect(html).toContain('Custom bg');
+    expect(html).toContain('#eff6ff');
+  });
+
+  it('renders custom text color on callout', () => {
+    const { html } = render('::: callout color=#1e40af\nCustom color\n:::');
+    expect(html).toContain('Custom color');
+    expect(html).toContain('#1e40af');
+  });
+
+  it('renders combined params on callout', () => {
+    const { html } = render('::: callout center compact color=#1e40af bg=#eff6ff\nAll params\n:::');
+    expect(html).toContain('All params');
+    expect(html).toContain('text-align:center');
+    expect(html).toContain('12px 16px');
+    expect(html).toContain('#1e40af');
+    expect(html).toContain('#eff6ff');
+  });
+
+  it('strips parameterized callout markers in plain text', () => {
+    const { text } = render('::: callout center compact bg=#eff6ff\n**Important**\n:::');
+    expect(text).toContain('Important');
+    expect(text).not.toContain('EMAILMD');
+    expect(text).not.toContain('center');
+    expect(text).not.toContain('eff6ff');
+  });
+});
+
+describe('highlight directive with params', () => {
+  it('renders center-aligned highlight', () => {
+    const { html } = render('::: highlight center\nCentered highlight\n:::');
+    expect(html).toContain('Centered highlight');
+    expect(html).toContain('text-align:center');
+  });
+
+  it('renders custom bg color on highlight', () => {
+    const { html } = render('::: highlight bg=#dc2626\nCustom bg\n:::');
+    expect(html).toContain('#dc2626');
+  });
+
+  it('renders compact padding on highlight', () => {
+    const { html } = render('::: highlight compact\nCompact highlight\n:::');
+    expect(html).toContain('12px 16px');
+  });
+});
+
+describe('header directive with params', () => {
+  it('defaults to center when no alignment specified', () => {
+    const { html } = render('::: header\nHeader content\n:::');
+    expect(html).toContain('text-align:center');
+  });
+
+  it('renders left-aligned header', () => {
+    const { html } = render('::: header left\nLeft header\n:::');
+    expect(html).toContain('Left header');
+    expect(html).toContain('text-align:left');
+  });
+
+  it('renders custom text color on header', () => {
+    const { html } = render('::: header color=#1e40af\nColored header\n:::');
+    expect(html).toContain('#1e40af');
+  });
+});
+
+describe('footer directive with params', () => {
+  it('defaults to center when no alignment specified', () => {
+    const { html } = render('::: footer\nFooter content\n:::');
+    expect(html).toContain('text-align:center');
+  });
+
+  it('renders left-aligned footer', () => {
+    const { html } = render('::: footer left\nLeft footer\n:::');
+    expect(html).toContain('Left footer');
+    expect(html).toContain('text-align:left');
+  });
+
+  it('strips parameterized footer markers in plain text', () => {
+    const { text } = render('::: footer left color=#666666\nFooter text\n:::');
+    expect(text).toContain('Footer text');
+    expect(text).not.toContain('EMAILMD');
+  });
+});
+
 describe('multiple directives', () => {
   it('renders multiple directives in sequence', () => {
     const md = `::: callout

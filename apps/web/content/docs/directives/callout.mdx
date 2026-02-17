@@ -12,3 +12,47 @@ A callout renders a highlighted block, useful for tips, notes, or important info
 ```
 
 Callouts are styled with a subtle background color (using the theme's `cardColor`) to visually distinguish them from regular content.
+
+## Parameters
+
+Add space-separated parameters after the directive name to customize appearance.
+
+### Alignment
+
+```markdown
+::: callout center
+**ABC-123**
+Your confirmation code.
+:::
+```
+
+Supported values: `left` (default), `center`, `right`.
+
+### Padding
+
+```markdown
+::: callout compact
+Short note.
+:::
+```
+
+Supported values: `compact` (tighter), `spacious` (more breathing room). Default padding is used when no keyword is provided.
+
+### Color & Background
+
+Override the text color or background color with `color=` and `bg=`:
+
+```markdown
+::: callout color=#1e40af bg=#eff6ff
+**Note:** Your account is pending review.
+:::
+```
+
+### Combined
+
+Parameters can be freely combined:
+
+```markdown
+::: callout center compact bg=#eff6ff
+**ABC-123**
+:::

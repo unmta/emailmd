@@ -1,13 +1,9 @@
 import {
-  MARKER_CALLOUT_OPEN,
   MARKER_CALLOUT_CLOSE,
   MARKER_CENTERED_OPEN,
   MARKER_CENTERED_CLOSE,
-  MARKER_HIGHLIGHT_OPEN,
   MARKER_HIGHLIGHT_CLOSE,
-  MARKER_HEADER_OPEN,
   MARKER_HEADER_CLOSE,
-  MARKER_FOOTER_OPEN,
   MARKER_FOOTER_CLOSE,
   MARKER_HERO_CLOSE,
 } from './constants.js';
@@ -22,12 +18,29 @@ export interface Segment {
 }
 
 const DIRECTIVE_PAIRS: Array<{ open: string; close: string; type: SegmentType }> = [
-  { open: MARKER_CALLOUT_OPEN, close: MARKER_CALLOUT_CLOSE, type: 'callout' },
   { open: MARKER_CENTERED_OPEN, close: MARKER_CENTERED_CLOSE, type: 'centered' },
-  { open: MARKER_HIGHLIGHT_OPEN, close: MARKER_HIGHLIGHT_CLOSE, type: 'highlight' },
-  { open: MARKER_HEADER_OPEN, close: MARKER_HEADER_CLOSE, type: 'header' },
-  { open: MARKER_FOOTER_OPEN, close: MARKER_FOOTER_CLOSE, type: 'footer' },
 ];
+
+const PARAMETERIZED_DIRECTIVES: Array<{
+  re: RegExp;
+  type: SegmentType;
+  close: string;
+}> = [
+  { re: /<!--EMAILMD:CALLOUT_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'callout', close: MARKER_CALLOUT_CLOSE },
+  { re: /<!--EMAILMD:HIGHLIGHT_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'highlight', close: MARKER_HIGHLIGHT_CLOSE },
+  { re: /<!--EMAILMD:HEADER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'header', close: MARKER_HEADER_CLOSE },
+  { re: /<!--EMAILMD:FOOTER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'footer', close: MARKER_FOOTER_CLOSE },
+];
+
+function parseMarkerAttrs(attrString: string): Record<string, string> {
+  const attrs: Record<string, string> = {};
+  const re = /([\w-]+)="([^"]*)"/g;
+  let match: RegExpExecArray | null;
+  while ((match = re.exec(attrString)) !== null) {
+    attrs[match[1]] = match[2];
+  }
+  return attrs;
+}
 
 // Matches <p> containing only <a> tags (one or more) with optional whitespace between them
 const BUTTON_PARA_RE = /<p>\s*((?:<a\s+[^>]*>[^<]*<\/a>\s*)+)<\/p>/g;
@@ -182,6 +195,22 @@ function splitOnDirectives(html: string): Segment[] {
       const pos = remaining.indexOf(pair.open);
       if (pos !== -1 && (earliest === null || pos < earliest.pos)) {
         earliest = { pos, type: pair.type, openLen: pair.open.length, close: pair.close };
+      }
+    }
+
+    // Check parameterized directives (regex-based)
+    for (const pd of PARAMETERIZED_DIRECTIVES) {
+      pd.re.lastIndex = 0;
+      const pdMatch = pd.re.exec(remaining);
+      if (pdMatch && (earliest === null || pdMatch.index < earliest.pos)) {
+        const attrs = parseMarkerAttrs(pdMatch[1]);
+        earliest = {
+          pos: pdMatch.index,
+          type: pd.type,
+          openLen: pdMatch[0].length,
+          close: pd.close,
+          attrs: Object.keys(attrs).length > 0 ? attrs : undefined,
+        };
       }
     }
 

@@ -1,13 +1,9 @@
 import {
-  MARKER_CALLOUT_OPEN,
   MARKER_CALLOUT_CLOSE,
   MARKER_CENTERED_OPEN,
   MARKER_CENTERED_CLOSE,
-  MARKER_HIGHLIGHT_OPEN,
   MARKER_HIGHLIGHT_CLOSE,
-  MARKER_HEADER_OPEN,
   MARKER_HEADER_CLOSE,
-  MARKER_FOOTER_OPEN,
   MARKER_FOOTER_CLOSE,
   MARKER_HERO_CLOSE,
 } from './constants.js';
@@ -19,16 +15,16 @@ import {
 export function toPlainText(html: string): string {
   let text = html;
 
-  // Strip directive markers
-  text = text.replace(new RegExp(escapeRegExp(MARKER_CALLOUT_OPEN), 'g'), '');
+  // Strip directive markers (parameterized directives use regex to handle optional attrs)
+  text = text.replace(/<!--EMAILMD:CALLOUT_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_CALLOUT_CLOSE), 'g'), '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_CENTERED_OPEN), 'g'), '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_CENTERED_CLOSE), 'g'), '');
-  text = text.replace(new RegExp(escapeRegExp(MARKER_HIGHLIGHT_OPEN), 'g'), '');
+  text = text.replace(/<!--EMAILMD:HIGHLIGHT_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_HIGHLIGHT_CLOSE), 'g'), '');
-  text = text.replace(new RegExp(escapeRegExp(MARKER_HEADER_OPEN), 'g'), '');
+  text = text.replace(/<!--EMAILMD:HEADER_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_HEADER_CLOSE), 'g'), '');
-  text = text.replace(new RegExp(escapeRegExp(MARKER_FOOTER_OPEN), 'g'), '');
+  text = text.replace(/<!--EMAILMD:FOOTER_OPEN(?:\s+[\w-]+="[^"]*")*-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_FOOTER_CLOSE), 'g'), '');
   text = text.replace(/<!--EMAILMD:HERO_OPEN url="[^"]*"-->/g, '');
   text = text.replace(new RegExp(escapeRegExp(MARKER_HERO_CLOSE), 'g'), '');

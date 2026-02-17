@@ -175,6 +175,32 @@ The Acme Team
 :::
 ```
 
+### Directive Parameters
+
+Some directives accept space-separated parameters to customize alignment, padding, and colors:
+
+```markdown
+::: callout center
+**ABC-123**
+Your confirmation code.
+:::
+
+::: highlight center compact
+Limited time offer!
+:::
+
+::: callout color=#1e40af bg=#eff6ff
+**Note:** Your account is pending review.
+:::
+```
+
+| Parameter | Syntax | Values | Applies To |
+|-----------|--------|--------|------------|
+| **align** | Bare keyword | `center`, `left`, `right` | callout, highlight, header, footer |
+| **padding** | Bare keyword | `compact`, `spacious` | callout, highlight |
+| **color** | `color=<hex>` | Any hex color | callout, highlight, header, footer |
+| **bg** | `bg=<hex>` | Any hex color | callout, highlight |
+
 ## Buttons
 
 ```markdown

@@ -21,3 +21,26 @@ Content goes here
 | [highlight](/docs/directives/highlight) | Emphasized content block |
 | [centered](/docs/directives/centered) | Center-aligned text |
 | [footer](/docs/directives/footer) | Footer with links and legal text |
+
+## Parameters
+
+Some directives accept space-separated parameters after the directive name to customize alignment, padding, and colors:
+
+```markdown
+::: callout center
+Centered callout content
+:::
+
+::: highlight center compact bg=#dc2626
+Compact, centered highlight with custom background
+:::
+```
+
+| Parameter | Syntax | Values | Applies To |
+|-----------|--------|--------|------------|
+| **align** | Bare keyword | `center`, `left`, `right` | callout, highlight, header, footer |
+| **padding** | Bare keyword | `compact`, `spacious` | callout, highlight |
+| **color** | `color=<hex>` | Any hex color | callout, highlight, header, footer |
+| **bg** | `bg=<hex>` | Any hex color | callout, highlight |
+
+See each directive's page for detailed examples.

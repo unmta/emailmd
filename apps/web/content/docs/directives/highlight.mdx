@@ -12,3 +12,37 @@ Limited time: first 100 signups get 50% off.
 ```
 
 The highlight directive uses the theme's `brandColor` to draw attention to important content like promotions, announcements, or key messages.
+
+## Parameters
+
+Add space-separated parameters after the directive name to customize appearance.
+
+### Alignment
+
+```markdown
+::: highlight center
+**50% OFF** — This weekend only!
+:::
+```
+
+Supported values: `left` (default), `center`, `right`.
+
+### Padding
+
+```markdown
+::: highlight compact
+Flash sale!
+:::
+```
+
+Supported values: `compact` (tighter), `spacious` (more breathing room).
+
+### Color & Background
+
+Override the text color or background color with `color=` and `bg=`:
+
+```markdown
+::: highlight color=#ffffff bg=#dc2626
+**URGENT:** Action required.
+:::
+```
