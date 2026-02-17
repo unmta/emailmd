@@ -3,6 +3,7 @@
 import { CopyButton } from "./copy-button";
 import { ThemeModal } from "./theme-modal";
 import { SnippetsModal } from "./snippets-modal";
+import { IconsModal } from "./icons-modal";
 
 interface EditorPaneProps {
   value: string;
@@ -18,6 +19,7 @@ export function EditorPane({ value, onChange }: EditorPaneProps) {
         </span>
         <div className="flex items-center gap-1">
           <SnippetsModal />
+          <IconsModal />
           <ThemeModal markdown={value} onChange={onChange} />
           <CopyButton text={value} label="Markdown" />
         </div>
