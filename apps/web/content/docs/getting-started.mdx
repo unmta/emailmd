@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-description: Install emailmd and render your first email.
+description: Install Email.md and render your first email.
 ---
 
 ## Installation
@@ -14,7 +14,7 @@ npm install emailmd
 Import the `render` function and pass it a markdown string:
 
 ```typescript
-import { render } from 'emailmd';
+import { render } from "emailmd";
 
 const { html, text } = render(`
 # Welcome!
@@ -36,14 +36,14 @@ The `render` function returns:
 Use the `html` and `text` outputs with any email sending service:
 
 ```typescript
-import { render } from 'emailmd';
+import { render } from "emailmd";
 
 const { html, text } = render(markdown);
 
 // Use with your email service (Nodemailer, SendGrid, Resend, etc.)
 await sendEmail({
-  to: 'user@example.com',
-  subject: 'Welcome!',
+  to: "user@example.com",
+  subject: "Welcome!",
   html,
   text,
 });

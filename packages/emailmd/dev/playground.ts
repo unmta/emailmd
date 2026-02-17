@@ -83,7 +83,7 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   const url = `http://localhost:${PORT}`;
-  console.log(`\n  EMAIL.md playground running at ${url}\n`);
+  console.log(`\n  Email.md playground running at ${url}\n`);
 });
 
 function getHtml(): string {
@@ -92,7 +92,7 @@ function getHtml(): string {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EMAIL.md playground</title>
+<title>Email.md playground</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -301,7 +301,7 @@ function getHtml(): string {
 <body>
 
 <header>
-  <h1>EMAIL.md playground</h1>
+  <h1>Email.md playground</h1>
   <div class="controls">
     <label>Theme
       <select id="theme-select">

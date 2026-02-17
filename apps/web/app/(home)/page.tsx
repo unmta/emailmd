@@ -7,16 +7,13 @@ export default function Page() {
       {/* Hero */}
       <section className="container mx-auto max-w-screen-lg px-4 py-24 text-center md:py-32">
         <div className="mx-auto max-w-2xl space-y-6">
-          <span className="inline-block rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
-            Open Source
-          </span>
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Markdown to Email&#8209;Safe&nbsp;HTML
+            Responsive Emails, Written in Markdown
           </h1>
           <p className="mx-auto max-w-xl text-lg text-muted-foreground">
-            Write in markdown, send emails that work everywhere. emailmd
-            converts your markdown into bulletproof HTML that renders perfectly
-            in Gmail, Outlook, Apple Mail, and every email client.
+            Email.md turns simple markdown into responsive, email-safe HTML that
+            renders perfectly across every client. Build transactional and
+            marketing emails in a fraction of the code.
           </p>
           <div className="flex items-center justify-center gap-3">
             <Link
@@ -28,7 +25,6 @@ export default function Page() {
             <a
               href="https://github.com/unmta/emailmd"
               target="_blank"
-              rel="noopener noreferrer"
               className="inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted"
             >
               GitHub
@@ -107,9 +103,8 @@ Thanks for signing up.
         <div className="container mx-auto max-w-screen-lg px-4">
           Built by{" "}
           <a
-            href="https://github.com/unmta"
+            href="https://www.unmta.com/"
             target="_blank"
-            rel="noopener noreferrer"
             className="underline underline-offset-4 hover:text-foreground"
           >
             unMTA
@@ -118,7 +113,6 @@ Thanks for signing up.
           <a
             href="https://github.com/unmta/emailmd"
             target="_blank"
-            rel="noopener noreferrer"
             className="underline underline-offset-4 hover:text-foreground"
           >
             GitHub

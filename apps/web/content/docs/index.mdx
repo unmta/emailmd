@@ -1,14 +1,14 @@
 ---
 title: Introduction
-description: emailmd converts markdown to email-safe HTML that works everywhere.
+description: Email.md converts markdown to email-safe HTML that works everywhere.
 ---
 
-emailmd is a TypeScript library that converts standard markdown into bulletproof email HTML using [MJML](https://mjml.io) under the hood.
+Email.md is a TypeScript library that converts standard markdown into bulletproof email HTML using [MJML](https://mjml.io) under the hood.
 
 Write your emails in markdown and get HTML that renders perfectly in Gmail, Outlook, Apple Mail, Yahoo Mail, and every other email client.
 
 ```
-markdown → emailmd → Gmail, Outlook, Apple Mail, Yahoo, everything
+markdown → Email.md → Gmail, Outlook, Apple Mail, Yahoo, everything
 ```
 
 ## Quick Start
@@ -18,7 +18,7 @@ npm install emailmd
 ```
 
 ```typescript
-import { render } from 'emailmd';
+import { render } from "emailmd";
 
 const { html, text } = render(`
 # Welcome!
@@ -43,4 +43,4 @@ Thanks for signing up.
 
 ## Built on MJML
 
-emailmd uses [MJML](https://mjml.io) under the hood for bulletproof email HTML. Tested across Gmail, Outlook, Apple Mail, Yahoo Mail, and more.
+Email.md uses [MJML](https://mjml.io) under the hood for bulletproof email HTML. Tested across Gmail, Outlook, Apple Mail, Yahoo Mail, and more.

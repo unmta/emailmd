@@ -1,7 +1,7 @@
 {
   "name": "emailmd",
   "version": "0.1.0",
-  "description": "Markdown to email-safe HTML. Write in markdown, send emails that work everywhere.",
+  "description": "Turn markdown into responsive, email-safe HTML that renders perfectly across every client.",
   "keywords": [
     "email",
     "markdown",

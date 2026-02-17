@@ -1,4 +1,4 @@
-# email.md
+# Email.md
 
 Markdown to email-safe HTML. Write in markdown, send emails that work everywhere.
 
@@ -15,7 +15,7 @@ npm install emailmd
 ## Quick Start
 
 ```typescript
-import { render } from 'emailmd';
+import { render } from "emailmd";
 
 const { html, text } = render(`
 # Welcome!
@@ -36,10 +36,10 @@ Customize colors and fonts to match your brand:
 ```typescript
 const { html } = render(markdown, {
   theme: {
-    brandColor: '#e11d48',
-    buttonColor: '#e11d48',
-    fontFamily: 'Georgia, serif',
-  }
+    brandColor: "#e11d48",
+    buttonColor: "#e11d48",
+    fontFamily: "Georgia, serif",
+  },
 });
 ```
 
@@ -48,7 +48,7 @@ const { html } = render(markdown, {
 A built-in dark theme is available. Pass it directly to flip all colors at once:
 
 ```typescript
-import { render, darkTheme } from 'emailmd';
+import { render, darkTheme } from "emailmd";
 
 const { html } = render(markdown, { theme: darkTheme });
 ```
@@ -57,7 +57,7 @@ Or use it as a base and override individual values:
 
 ```typescript
 const { html } = render(markdown, {
-  theme: { ...darkTheme, brandColor: '#e11d48' },
+  theme: { ...darkTheme, brandColor: "#e11d48" },
 });
 ```
 
@@ -65,20 +65,20 @@ You can also activate it per-email via frontmatter — see [Frontmatter](#frontm
 
 ### All theme options
 
-| Key | Default | Description |
-|-----|---------|-------------|
-| `brandColor` | `#5B4FE9` | Links, highlights |
-| `headingColor` | `#111827` | Heading text |
-| `bodyColor` | `#374151` | Body text |
-| `backgroundColor` | `#f4f4f5` | Outer background |
-| `contentColor` | `#ffffff` | Content area background |
-| `cardColor` | `#f3f4f6` | Callout background |
-| `buttonColor` | `#5B4FE9` | Primary button |
-| `buttonTextColor` | `#ffffff` | Button text |
-| `fontFamily` | Helvetica Neue, ... | Font stack |
-| `fontSize` | `16px` | Base font size |
-| `lineHeight` | `1.6` | Base line height |
-| `contentWidth` | `600px` | Email width |
+| Key               | Default             | Description             |
+| ----------------- | ------------------- | ----------------------- |
+| `brandColor`      | `#5B4FE9`           | Links, highlights       |
+| `headingColor`    | `#111827`           | Heading text            |
+| `bodyColor`       | `#374151`           | Body text               |
+| `backgroundColor` | `#f4f4f5`           | Outer background        |
+| `contentColor`    | `#ffffff`           | Content area background |
+| `cardColor`       | `#f3f4f6`           | Callout background      |
+| `buttonColor`     | `#5B4FE9`           | Primary button          |
+| `buttonTextColor` | `#ffffff`           | Button text             |
+| `fontFamily`      | Helvetica Neue, ... | Font stack              |
+| `fontSize`        | `16px`              | Base font size          |
+| `lineHeight`      | `1.6`               | Base line height        |
+| `contentWidth`    | `600px`             | Email width             |
 
 ## Frontmatter
 
@@ -133,7 +133,9 @@ A full-width section with a background image and overlaid text — typically use
 
 ```markdown
 ::: hero https://example.com/hero.jpg
+
 # Welcome aboard
+
 Get started with your new account today.
 :::
 ```
@@ -254,11 +256,11 @@ Checked items render with ☑ and unchecked with ☐. In the plain text output, 
 Standard GFM (GitHub Flavored Markdown) tables are supported and rendered as styled, email-safe HTML tables:
 
 ```markdown
-| Name  | Role       | Status |
-| ----- | ---------- | ------ |
-| Alice | Engineer   | Active |
-| Bob   | Designer   | Active |
-| Carol | Manager    | Away   |
+| Name  | Role     | Status |
+| ----- | -------- | ------ |
+| Alice | Engineer | Active |
+| Bob   | Designer | Active |
+| Carol | Manager  | Away   |
 ```
 
 ### Column Alignment
@@ -266,9 +268,9 @@ Standard GFM (GitHub Flavored Markdown) tables are supported and rendered as sty
 Control column alignment using colons in the separator row:
 
 ```markdown
-| Left   | Center | Right |
-| :----- | :----: | ----: |
-| left   | center | right |
+| Left | Center | Right |
+| :--- | :----: | ----: |
+| left | center | right |
 ```
 
 Tables are automatically styled with theme colors — header rows are bold with a bottom border, and body rows have subtle separators.
@@ -363,8 +365,8 @@ In the plain text output, HTML tags are stripped and only the text content is pr
 The default wrapper provides a gray outer background with a white content area. You can supply a custom wrapper to fully control the email's outer structure:
 
 ```typescript
-import { render, buildHead, segmentsToMjml } from 'emailmd';
-import type { WrapperFn } from 'emailmd';
+import { render, buildHead, segmentsToMjml } from "emailmd";
+import type { WrapperFn } from "emailmd";
 
 const myWrapper: WrapperFn = (segments, theme, meta) => {
   const head = buildHead(theme, meta?.preheader);
@@ -418,7 +420,7 @@ Opens a browser UI at `http://localhost:3000` with a split-pane editor — markd
 
 ## Built on MJML
 
-email.md uses [MJML](https://mjml.io) under the hood for bulletproof email HTML.
+Email.md uses [MJML](https://mjml.io) under the hood for bulletproof email HTML.
 Tested across Gmail, Outlook, Apple Mail, Yahoo Mail, and more.
 
 ## License
