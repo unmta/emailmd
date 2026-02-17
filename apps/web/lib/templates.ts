@@ -151,34 +151,70 @@ Acme Store | 456 Commerce Blvd | [Unsubscribe](https://example.com/unsub)
     title: "Monthly Newsletter",
     category: "Marketing",
     author: "Email.md",
+    image: "https://imgs.emailmd.dev/ss/newsletter.png",
     markdown: `---
-preheader: "What's new this month"
+preheader: "We made new stuff. Come look."
+font_family: "ui-monospace, SF Mono, Menlo, Consolas, monospace"
+background_color: "#FFE500"
+content_color: "#FFE500"
+heading_color: "#09090b"
+body_color: "#09090b"
+brand_color: "#09090b"
+button_color: "#09090b"
+button_text_color: "#FFE500"
+card_color: "#ffffff"
 ---
 
 ::: header
-![Logo](https://imgs.emailmd.dev/logoipsum-336.png){width="200"}
+![Moonbean](https://imgs.emailmd.dev/moonbean_logo.png)
 :::
 
-# The Monthly Roundup
+# NEW DROPS. ZERO DECAF.
 
-Here's what's been happening at Acme this month.
+[@MOONBEAN](https://example.com/social){button}
 
-## New Features
+::: callout
+## By now, you know Moonbean exists.
 
-We shipped **dark mode**, a redesigned dashboard, and faster load times across the board. [Read the full changelog →](https://example.com/changelog)
+You know we roast every batch by hand. You know we source from farms that actually care. You've tasted the difference.
 
-## From the Blog
+You get it.
 
-**Building Emails with Markdown** — Learn how to create beautiful, responsive emails using simple markdown syntax. No HTML required. [Read more →](https://example.com/blog/markdown-emails)
+But did you know we just dropped three new single-origins? And a cold brew concentrate that might rearrange your entire morning?
 
-## Community Spotlight
+**We have a newsletter. You're reading it. Let's keep this going.**
+:::
 
-A huge shoutout to our community for reaching **10,000 members**! Your feedback and contributions make Acme better every day.
+![Coffee](https://imgs.emailmd.dev/moonbean_coffee.jpg){width="600"}
 
-[Join the Community](https://example.com/community){button}
+**Here's what's in the bag this month:**
+
+- **Ethiopian Yirgacheffe.** Bright. Fruity. The kind of cup that makes you close your eyes.
+
+- **Colombian Huila.** Smooth. Chocolatey. Your 3pm meeting just got better.
+
+- **Sumatra Mandheling.** Bold. Earthy. Doesn't apologize.
+
+- **Cold Brew Concentrate.** Mix it. Dilute it. Pour it over ice cream. We don't judge.
+
+- **Free stickers.** Every order. Because we like you.
+
+::: centered
+FOLLOW US
+:::
+
+[Instagram](https://example.com/instagram){button.secondary} [TikTok](https://example.com/tiktok){button.secondary} [X](https://example.com/x){button.secondary}
+
+[SHOP MOONBEAN](https://example.com/shop){button}
 
 ::: footer
-Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Manage preferences](https://example.com/preferences) · [Unsubscribe](https://example.com/unsub)
+**MOONBEAN COFFEE CO.**
+SMALL BATCH. BIG ENERGY.
+
+(c) 2026 Moonbean Coffee Co.
+42 Roaster Lane · Portland, OR 97201
+
+[Unsubscribe](https://example.com/unsub)
 :::
 `,
   },
