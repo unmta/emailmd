@@ -79,32 +79,39 @@ StageDive HQ · 123 Market St · San Francisco, CA 94105
     title: "Password Reset",
     category: "Security",
     author: "Email.md",
-    image: "https://imgs.emailmd.dev/ss/reset_password.png",
+    image: "https://imgs.emailmd.dev/ss/reset_password.png?2",
     markdown: `---
-preheader: "Reset your password"
-button_color: "#EA347D"
+preheader: "Let's get you back in"
+theme: dark
+brand_color: "#818cf8"
+button_color: "#818cf8"
+button_text_color: "#09090b"
 ---
 
 ::: header
-![Logo](https://imgs.emailmd.dev/logoipsum-222.png){width="200"}
+![Vault](https://imgs.emailmd.dev/logoipsum-245.png){width="80"}
 :::
 
-# Reset Your Password
+# Locked out? No sweat.
 
-We received a request to reset the password for your account. Click the button below to choose a new password.
+Someone (hopefully you) asked to reset the password on this account. Hit the button and you'll be back in business.
 
-[Reset Password](https://example.com/reset?token=abc123){button}
+[Reset My Password](https://example.com/reset?token=abc123){button width="full"}
+
+::: callout center compact
+:lock: This link expires in **60 minutes** and can only be used once.
+:::
 
 ::: centered
-This link will expire in **1 hour**.
+**Wasn't you?** No worries — just ignore this email and nothing changes. Your account is still safe.
 :::
 
-::: callout
-**Didn't request this?** If you didn't request a password reset, you can safely ignore this email.
-:::
+If you keep having trouble, reach out to [support@vaultapp.com](mailto:support@vaultapp.com) and we'll sort it out.
 
 ::: footer
-Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Unsubscribe](https://example.com/unsub)
+**Vault** · [Help Center](https://example.com/help) · [Status](https://example.com/status)
+
+You're receiving this because a password reset was requested for this email address.
 :::
 `,
   },
@@ -243,7 +250,7 @@ FOLLOW US
 
 [Instagram](https://example.com/instagram){button.secondary} [TikTok](https://example.com/tiktok){button.secondary} [X](https://example.com/x){button.secondary}
 
-[SHOP MOONBEAN](https://example.com/shop){button}
+[SHOP MOONBEAN](https://example.com/shop){button width="full"}
 
 ::: footer
 **MOONBEAN COFFEE CO.**
@@ -261,35 +268,51 @@ SMALL BATCH. BIG ENERGY.
     title: "Invoice",
     category: "Billing",
     author: "Email.md",
+    image: "https://imgs.emailmd.dev/ss/invoice.png?2",
     markdown: `---
-preheader: "Your invoice is ready"
+preheader: "Invoice #NEB-2026-0217 from Nebula"
+background_color: "#f4f4f5"
+content_color: "#ffffff"
+heading_color: "#18181b"
+body_color: "#3f3f46"
+brand_color: "#7c3aed"
+button_color: "#7c3aed"
+button_text_color: "#ffffff"
+card_color: "#faf5ff"
 ---
 
 ::: header
-![Logo](https://imgs.emailmd.dev/logoipsum-336.png){width="200"}
+![Nebula](https://imgs.emailmd.dev/logoipsum-369.png){width="150"}
 :::
 
-# Invoice #INV-2025-0042
+# Invoice #NEB-2026-0217
 
-Hi Alex, your invoice for January 2025 is ready.
+Hi Jamie — here's your February breakdown.
 
-| Description | Amount |
-|-------------|--------|
+| | |
+|:---|---:|
 | Pro Plan (Monthly) | $29.00 |
-| Additional Seats (3) | $27.00 |
-| API Add-on | $9.00 |
+| Team Seats (3 x $9) | $27.00 |
+| API Usage (12,430 calls) | $9.00 |
+| | |
 | **Total Due** | **$65.00** |
 
-**Due Date:** February 1, 2025
-
-[Pay Now](https://example.com/invoices/42/pay){button}
-
-::: callout
-**Payment methods:** We accept all major credit cards and bank transfers. Need to update your payment method? [Go to billing settings](https://example.com/billing).
+::: callout center
+:calendar: **Due:** March 17, 2026 · **Status:** Unpaid
 :::
 
+[Pay This Invoice](https://example.com/invoices/217/pay){button} [Download PDF](https://example.com/invoices/217/pdf){button.secondary}
+
+---
+
+**Payment methods:** Visa ending in 4242 · [Update card](https://example.com/billing)
+
+Need to change your plan or have a question about this bill? Just reply to this email — our billing team responds within a few hours.
+
 ::: footer
-Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Unsubscribe](https://example.com/unsub)
+**Nebula Inc.** · 800 Cloud Ave, San Francisco, CA 94107
+
+[Billing Portal](https://example.com/billing) · [Unsubscribe](https://example.com/unsub)
 :::
 `,
   },
