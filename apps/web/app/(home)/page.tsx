@@ -1,5 +1,35 @@
 import Link from "next/link";
-import { Mail, FileText, Palette, Type } from "lucide-react";
+import Image from "next/image";
+import { CopyButton } from "@/components/builder/copy-button";
+
+const btnClass =
+  "inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted";
+
+function NavButtons() {
+  return (
+    <div className="flex items-center justify-center gap-3">
+      <Link href="/templates" className={btnClass}>
+        Templates
+      </Link>
+      <Link href="/builder" className={btnClass}>
+        Builder
+      </Link>
+      <Link
+        href="/docs"
+        className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+      >
+        Docs
+      </Link>
+      <a
+        href="https://github.com/unmta/emailmd"
+        target="_blank"
+        className={btnClass}
+      >
+        GitHub
+      </a>
+    </div>
+  );
+}
 
 export default function Page() {
   return (
@@ -11,96 +41,70 @@ export default function Page() {
             Responsive Emails, Written in Markdown
           </h1>
           <p className="mx-auto max-w-xl text-lg text-muted-foreground">
-            Email.md turns simple markdown into responsive, email-safe HTML that
-            renders perfectly across every client. Build transactional and
-            marketing emails in a fraction of the code.
+            Write markdown. Ship emails. No{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">HTMHELL</code>.
           </p>
-          <div className="flex items-center justify-center gap-3">
-            <Link
-              href="/docs"
-              className="inline-flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Get Started
-            </Link>
-            <a
-              href="https://github.com/unmta/emailmd"
-              target="_blank"
-              className="inline-flex h-9 items-center justify-center rounded-lg border border-border bg-background px-4 text-sm font-medium transition-colors hover:bg-muted"
-            >
-              GitHub
-            </a>
-          </div>
+          <NavButtons />
         </div>
       </section>
 
-      {/* Code Preview */}
+      {/* Code → Email Preview */}
       <section className="container mx-auto max-w-screen-lg px-4 pb-20">
-        <div className="mx-auto max-w-2xl overflow-hidden rounded-xl border border-border bg-card">
-          <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-            <div className="h-3 w-3 rounded-full bg-red-500/20" />
-            <div className="h-3 w-3 rounded-full bg-yellow-500/20" />
-            <div className="h-3 w-3 rounded-full bg-green-500/20" />
-            <span className="ml-2 text-xs text-muted-foreground">
-              example.ts
-            </span>
+        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
+          {/* Editor pane */}
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            <div className="flex items-center gap-2 border-b border-border px-4 py-3">
+              <div className="h-3 w-3 rounded-full bg-red-500/20" />
+              <div className="h-3 w-3 rounded-full bg-yellow-500/20" />
+              <div className="h-3 w-3 rounded-full bg-green-500/20" />
+              <span className="ml-2 text-xs text-muted-foreground">
+                confirm-email.md
+              </span>
+            </div>
+            <pre className="overflow-x-auto p-4 text-[13px] leading-relaxed">
+              <code className="text-foreground">{confirmEmailMarkdown}</code>
+            </pre>
           </div>
-          <pre className="overflow-x-auto p-4 text-sm leading-relaxed">
-            <code className="text-foreground">{`import { render } from 'emailmd';
 
-const { html, text } = render(\`
-# Welcome!
-
-Thanks for signing up.
-
-[Get Started](https://example.com){button}
-\`);
-
-// html → email-safe HTML (Gmail, Outlook, Apple Mail, everything)
-// text → plain text version for text/plain MIME part`}</code>
-          </pre>
+          {/* Browser preview pane */}
+          <div className="overflow-hidden rounded-xl border border-border bg-[#06060C]">
+            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+              <div className="h-3 w-3 rounded-full bg-red-500/20" />
+              <div className="h-3 w-3 rounded-full bg-yellow-500/20" />
+              <div className="h-3 w-3 rounded-full bg-green-500/20" />
+              <span className="ml-2 text-xs text-white/40">Preview</span>
+            </div>
+            <Image
+              src="https://imgs.emailmd.dev/ss/confirm_email.png"
+              alt="Confirm email rendered preview"
+              width={600}
+              height={800}
+              className="w-full"
+              priority
+            />
+          </div>
         </div>
       </section>
 
       {/* Install */}
-      <section className="container mx-auto max-w-screen-lg px-4 pb-20 text-center">
+      <section className="container mx-auto max-w-screen-lg px-4 pb-16 text-center">
         <div className="mx-auto max-w-md space-y-3">
-          <p className="text-sm text-muted-foreground">Install with npm</p>
           <div className="inline-flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-4 py-2 font-mono text-sm">
             <span className="text-muted-foreground">$</span>
             <span>npm install emailmd</span>
+            <CopyButton text="npm install emailmd" label="install command" />
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="container mx-auto max-w-screen-lg px-4 pb-24">
-        <div className="grid gap-6 sm:grid-cols-2">
-          <FeatureCard
-            icon={<Mail className="h-5 w-5" />}
-            title="Email-Safe HTML"
-            description="Powered by MJML under the hood for bulletproof rendering across Gmail, Outlook, Apple Mail, Yahoo, and every email client."
-          />
-          <FeatureCard
-            icon={<FileText className="h-5 w-5" />}
-            title="Rich Markdown"
-            description="Tables, task lists, buttons, callouts, heroes, headers, footers, and more. Everything you need for beautiful emails."
-          />
-          <FeatureCard
-            icon={<Palette className="h-5 w-5" />}
-            title="Theming"
-            description="Light and dark themes, brand colors, custom fonts. Override per-email via frontmatter or globally in code."
-          />
-          <FeatureCard
-            icon={<Type className="h-5 w-5" />}
-            title="Plain Text"
-            description="Automatic plain text generation for the text/plain MIME part. Every email gets both HTML and plain text output."
-          />
-        </div>
+      {/* Links */}
+      <section className="container mx-auto max-w-screen-lg px-4 pb-24 text-center">
+        <NavButtons />
       </section>
 
       {/* Footer */}
       <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-        <div className="container mx-auto max-w-screen-lg px-4">
+        <div className="container mx-auto max-w-5xl px-4">
           Built by{" "}
           <a
             href="https://www.unmta.com/"
@@ -124,24 +128,30 @@ Thanks for signing up.
   );
 }
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-6 space-y-3">
-      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted text-foreground">
-        {icon}
-      </div>
-      <h3 className="font-semibold">{title}</h3>
-      <p className="text-sm text-muted-foreground leading-relaxed">
-        {description}
-      </p>
-    </div>
-  );
-}
+const confirmEmailMarkdown = `---
+preheader: "Confirm your email address"
+theme: dark
+---
+
+::: header
+![Logo](https://...logo.png){width="200"}
+:::
+
+# Confirm your email address
+
+Your confirmation code is below -
+enter it in your open browser window
+and we'll help you get signed in.
+
+::: callout center compact
+# DFY-X7U
+:::
+
+If you didn't request this email,
+there's nothing to worry about,
+you can safely ignore it.
+
+::: footer
+Acme Inc. | 123 Main St
+[Unsubscribe](https://example.com/unsub)
+:::`;
