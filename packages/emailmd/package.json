@@ -45,9 +45,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "examples": "npx tsx examples/build.ts",
-    "playground": "npx tsx dev/playground.ts"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

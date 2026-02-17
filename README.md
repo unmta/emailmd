@@ -450,16 +450,6 @@ Renders markdown to email-safe HTML.
 }
 ```
 
-## Playground
-
-Spin up a local playground to write markdown and preview the rendered email in real time:
-
-```bash
-npm run playground
-```
-
-Opens a browser UI at `http://localhost:3000` with a split-pane editor — markdown on the left, live preview on the right. You can switch wrappers and load any of the bundled examples from the dropdowns.
-
 ## Built on MJML
 
 Email.md uses [MJML](https://mjml.io) under the hood for bulletproof email HTML.
