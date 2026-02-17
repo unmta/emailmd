@@ -46,3 +46,33 @@ Images mixed with text in a paragraph are rendered inline:
 ```markdown
 Feature one with icon ![check](https://example.com/check.png) included.
 ```
+
+### Vertical Alignment
+
+Inline images default to `vertical-align: middle`, centering them with adjacent text. Override per image with `valign`:
+
+```markdown
+Top-aligned ![icon](https://example.com/icon.png){valign="top"} icon.
+```
+
+Supported values: `top`, `middle`, `bottom`, `baseline`, `text-top`, `text-bottom`.
+
+### Float
+
+Use `float` to wrap text around an image instead of flowing beneath it:
+
+```markdown
+![Plant](https://example.com/plant.jpg){width="80" float="left"} **Monstera Deliciosa, 6" pot** Easy care · Bright indirect light · $42.00
+```
+
+Supported values: `left`, `right`. Appropriate margin is added automatically.
+
+> **Note:** Outlook desktop ignores `float` and falls back to default inline behavior.
+
+### Inline Image Size
+
+Control inline image dimensions with `width` and `height`:
+
+```markdown
+A small ![icon](https://example.com/icon.png){width="20" height="20"} icon.
+```

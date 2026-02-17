@@ -62,6 +62,60 @@ describe('image support', () => {
       expect(html).toContain('in the text.');
       expect(html).toContain('<img src="https://example.com/icon.png"');
     });
+
+    it('applies vertical-align: middle by default via global style', () => {
+      const { html } = render('Check ![icon](https://example.com/icon.png) here.');
+      expect(html).toContain('img { vertical-align: middle; }');
+    });
+
+    it('converts valign attribute to inline style', () => {
+      const { html } = render('Check ![icon](https://example.com/icon.png){valign="top"} here.');
+      expect(html).toContain('style="vertical-align: top"');
+      expect(html).not.toContain('valign="top"');
+    });
+
+    it('converts valign="baseline" to inline style', () => {
+      const { html } = render('Text ![icon](https://example.com/icon.png){valign="baseline"} more.');
+      expect(html).toContain('style="vertical-align: baseline"');
+    });
+
+    it('preserves width alongside valign', () => {
+      const { html } = render('Text ![icon](https://example.com/icon.png){width="24" valign="top"} here.');
+      expect(html).toContain('width="24"');
+      expect(html).toContain('style="vertical-align: top"');
+    });
+
+    it('works with inline images inside callout directives', () => {
+      const { html } = render('::: callout\nCheck ![icon](https://example.com/icon.png){valign="top"} here.\n:::');
+      expect(html).toContain('style="vertical-align: top"');
+    });
+
+    it('converts float="left" to inline styles with margin', () => {
+      const { html } = render('Text ![photo](https://example.com/photo.jpg){float="left"} description.');
+      expect(html).toContain('float: left');
+      expect(html).toContain('margin: 0 12px 8px 0');
+      expect(html).not.toContain('float="left"');
+    });
+
+    it('converts float="right" to inline styles with margin', () => {
+      const { html } = render('Text ![photo](https://example.com/photo.jpg){float="right"} description.');
+      expect(html).toContain('float: right');
+      expect(html).toContain('margin: 0 0 8px 12px');
+    });
+
+    it('combines float and valign into a single style', () => {
+      const { html } = render('Text ![photo](https://example.com/photo.jpg){valign="top" float="left"} description.');
+      expect(html).toContain('vertical-align: top');
+      expect(html).toContain('float: left');
+      expect(html).not.toContain('valign="top"');
+      expect(html).not.toContain('float="left"');
+    });
+
+    it('float works with width attribute', () => {
+      const { html } = render('::: callout\n![Plant](https://example.com/plant.jpg){width="80" float="left"} **Monstera** Easy care.\n:::');
+      expect(html).toContain('width="80"');
+      expect(html).toContain('float: left');
+    });
   });
 
   describe('images with surrounding content', () => {

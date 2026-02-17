@@ -32,15 +32,48 @@ export function buildHead(theme: Theme, preheader?: string): string {
       dl { margin: 0 0 8px 0; }
       dt { font-weight: 700; margin-top: 8px; }
       dd { margin: 2px 0 0 24px; }
+      img { vertical-align: middle; }
     </mj-style>
     ${preheader ? `<mj-preview>${preheader}</mj-preview>` : ''}
   </mj-head>`;
 }
 
+function processInlineImages(html: string): string {
+  return html.replace(/<img\s[^>]*?\b(?:valign|float)="[^"]*"[^>]*?\/?>/g, (tag) => {
+    const styles: string[] = [];
+
+    // Extract and remove valign
+    const valignMatch = tag.match(/\bvalign="([^"]*)"/);
+    if (valignMatch) {
+      styles.push(`vertical-align: ${valignMatch[1]}`);
+      tag = tag.replace(/\s*\bvalign="[^"]*"/, '');
+    }
+
+    // Extract and remove float
+    const floatMatch = tag.match(/\bfloat="([^"]*)"/);
+    if (floatMatch) {
+      const dir = floatMatch[1];
+      styles.push(`float: ${dir}`);
+      styles.push(dir === 'right' ? 'margin: 0 0 8px 12px' : 'margin: 0 12px 8px 0');
+      tag = tag.replace(/\s*\bfloat="[^"]*"/, '');
+    }
+
+    if (styles.length === 0) return tag;
+
+    // Merge into existing style or add new one
+    if (/\bstyle="/.test(tag)) {
+      return tag.replace(/style="([^"]*)"/, (_: string, existing: string) =>
+        `style="${existing}; ${styles.join('; ')}"`,
+      );
+    }
+    return tag.replace(/<img\s/, `<img style="${styles.join('; ')}" `);
+  });
+}
+
 function renderTextSegment(content: string, theme: Theme): string {
   return `<mj-section background-color="${theme.contentColor}" padding="0 32px">
       <mj-column>
-        <mj-text>${content}</mj-text>
+        <mj-text>${processInlineImages(content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -58,7 +91,7 @@ function renderCalloutSegment(segment: Segment, theme: Theme): string {
   const padding = resolvePadding(segment.attrs?.padding);
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
-        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${segment.content}</mj-text>
+        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -67,7 +100,7 @@ function renderCenteredSegment(segment: Segment, theme: Theme): string {
   const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
-        <mj-text align="center" font-size="${theme.fontSize}" color="${textColor}">${segment.content}</mj-text>
+        <mj-text align="center" font-size="${theme.fontSize}" color="${textColor}">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -79,7 +112,7 @@ function renderHighlightSegment(segment: Segment, theme: Theme): string {
   const padding = resolvePadding(segment.attrs?.padding);
   return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
-        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${segment.content}</mj-text>
+        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -89,7 +122,7 @@ function renderHeaderSegment(segment: Segment, theme: Theme): string {
   const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section padding="32px 32px 24px 32px">
       <mj-column>
-        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${segment.content}</mj-text>
+        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -99,7 +132,7 @@ function renderFooterSegment(segment: Segment, theme: Theme): string {
   const textColor = segment.attrs?.color || theme.bodyColor;
   return `<mj-section padding="24px 32px 32px 32px">
       <mj-column>
-        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${segment.content}</mj-text>
+        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
@@ -200,7 +233,7 @@ function renderHeroSegment(segment: Segment, theme: Theme): string {
   const url = segment.attrs?.url || '';
   return `<mj-section background-url="${url}" background-size="cover" background-repeat="no-repeat" padding="40px 32px">
       <mj-column>
-        <mj-text align="center" color="${theme.buttonTextColor}">${segment.content}</mj-text>
+        <mj-text align="center" color="${theme.buttonTextColor}">${processInlineImages(segment.content)}</mj-text>
       </mj-column>
     </mj-section>`;
 }
