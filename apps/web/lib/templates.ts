@@ -113,36 +113,74 @@ Acme Inc. | 123 Main St, San Francisco, CA 94102 | [Unsubscribe](https://example
     title: "Order Confirmation",
     category: "E-Commerce",
     author: "Email.md",
+    image: "https://imgs.emailmd.dev/ss/order_confirmation.png",
     markdown: `---
-preheader: "Your order has been confirmed"
+preheader: "Your order is on its way"
+background_color: "#ffffff"
+content_color: "#FFF7F0"
+heading_color: "#1a1a1a"
+body_color: "#52525b"
+brand_color: "#1a1a1a"
+button_color: "#1a1a1a"
+button_text_color: "#ffffff"
+card_color: "#ffffff"
 ---
 
 ::: header
-![Logo](https://imgs.emailmd.dev/logoipsum-336.png){width="200"}
+![Rooted](https://imgs.emailmd.dev/rooted_logo.png){width="150"}
 :::
 
-# Order Confirmed
+# Your order has shipped.
 
-Thanks for your purchase! Your order **#12345** has been confirmed and is being processed.
+Please let your other plants know a new sibling is on the way.
 
-## Order Summary
+[Track Order](https://example.com/track/RTD-7742){button}
 
-| Item | Qty | Price |
-|------|-----|-------|
-| Widget Pro | 2 | $49.98 |
-| Gadget Lite | 1 | $29.99 |
-| **Total** | | **$79.97** |
+| :white_check_mark: ORDER PLACED | :white_check_mark: SHIPPED | :seedling: DELIVERY |
+|:---:|:---:|:---:|
+| Feb 12 | Feb 13 | Feb 15 |
 
-We'll send you a shipping confirmation with tracking details once your order ships.
-
-[View Order](https://example.com/orders/12345){button}
+Order **#RTD-7742** · [View Your Order](https://example.com/orders/7742)
 
 ::: callout
-**Estimated delivery:** 3–5 business days
+![Plant](https://imgs.emailmd.dev/rooted_plant.jpg){float=left} **Monstera Deliciosa, 6" pot** Easy care · Bright indirect light 6" ceramic pot · $42.00
+:::
+
+## Common Questions
+
+::: callout center
+**Going on vacation?**
+
+We can hold your shipment or adjust your delivery window. No wilting on our watch.
+
+[Reschedule](https://example.com/help/reschedule){button.secondary}
+:::
+
+::: callout center
+**Gifting to someone else?**
+
+Add a handwritten note and ship to any address.
+
+[Send as Gift](https://example.com/help/gifting){button.secondary}
+:::
+
+::: highlight center
+**GET DELIVERY UPDATES BY TEXT**
+
+We'll tell you exactly when your plant arrives so it's not sitting on the porch. [Sign Up](https://example.com/sms-alerts)
+:::
+
+::: centered
+[Care Guides](https://example.com/care) · [Plant Quiz](https://example.com/quiz) · [Refer a Friend](https://example.com/refer)
 :::
 
 ::: footer
-Acme Store | 456 Commerce Blvd | [Unsubscribe](https://example.com/unsub)
+**ROOTED CO.**
+675 Greenhouse Ave · Portland, OR 97201
+
+You received this email because you ordered from rooted.co
+
+[Unsubscribe](https://example.com/unsub)
 :::
 `,
   },
