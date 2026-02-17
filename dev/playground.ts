@@ -195,6 +195,52 @@ function getHtml(): string {
     background: #161b22;
     border-bottom: 1px solid #30363d;
     flex-shrink: 0;
+    align-items: center;
+  }
+
+  .width-toggle {
+    display: flex;
+    gap: 2px;
+    margin-left: auto;
+    padding-right: 12px;
+  }
+
+  .width-btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 6px;
+    cursor: pointer;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .width-btn:hover { color: #c9d1d9; }
+
+  .width-btn.active {
+    color: #e1e4e8;
+    border-color: #30363d;
+    background: #21262d;
+  }
+
+  .width-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  #tab-preview.mobile-preview {
+    display: flex;
+    justify-content: center;
+    background: #1c2028;
+  }
+
+  #tab-preview.mobile-preview #preview {
+    width: 375px;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px #30363d;
   }
 
   .tab {
@@ -282,6 +328,14 @@ function getHtml(): string {
       <button class="tab active" data-tab="preview">Preview</button>
       <button class="tab" data-tab="html">HTML Source</button>
       <button class="tab" data-tab="text">Plain Text</button>
+      <div class="width-toggle">
+        <button class="width-btn active" data-width="desktop" title="Desktop width">
+          <svg viewBox="0 0 16 16"><path d="M2 3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2Zm0-1h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm3 11h6v1H5v-1Z"/></svg>
+        </button>
+        <button class="width-btn" data-width="mobile" title="Mobile width (375px)">
+          <svg viewBox="0 0 16 16"><path d="M5 2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H5Zm0-1h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2Zm1.5 11h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Z"/></svg>
+        </button>
+      </div>
     </div>
     <div id="tab-preview" class="tab-content active">
       <iframe id="preview"></iframe>
@@ -310,6 +364,20 @@ function getHtml(): string {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       tab.classList.add('active');
       document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Width toggle
+  const previewContainer = document.getElementById('tab-preview');
+  document.querySelectorAll('.width-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.width-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (btn.dataset.width === 'mobile') {
+        previewContainer.classList.add('mobile-preview');
+      } else {
+        previewContainer.classList.remove('mobile-preview');
+      }
     });
   });
 
