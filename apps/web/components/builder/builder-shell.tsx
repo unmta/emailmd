@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { render } from "emailmd";
 import { Pencil, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { loadDraft, clearDraft } from "@/lib/storage";
+import { useAutoSave } from "./use-auto-save";
 import { EditorPane } from "./editor-pane";
 import { OutputPane } from "./output-pane";
 
@@ -38,11 +40,35 @@ export function BuilderShell({
 }: {
   initialMarkdown?: string;
 }) {
-  const [markdown, setMarkdown] = useState(initialMarkdown ?? DEFAULT_MARKDOWN);
+  const hasTemplate = initialMarkdown != null;
+  const [hasEdited, setHasEdited] = useState(false);
+  const [markdown, setMarkdown] = useState(
+    () => initialMarkdown ?? loadDraft() ?? DEFAULT_MARKDOWN
+  );
   const [html, setHtml] = useState("");
   const [text, setText] = useState("");
   const [editorOpen, setEditorOpen] = useState(true);
+  const [lastSaved, setLastSaved] = useState<number | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const handleSave = useCallback(() => {
+    setLastSaved(Date.now());
+  }, []);
+
+  useAutoSave(markdown, {
+    enabled: !hasTemplate || hasEdited,
+    onSave: handleSave,
+  });
+
+  const handleChange = useCallback((value: string) => {
+    setHasEdited(true);
+    setMarkdown(value);
+  }, []);
+
+  const handleReset = useCallback(() => {
+    clearDraft();
+    setMarkdown(DEFAULT_MARKDOWN);
+  }, []);
 
   useEffect(() => {
     clearTimeout(debounceRef.current);
@@ -89,7 +115,12 @@ export function BuilderShell({
             <X className="size-4" />
           </Button>
         </div>
-        <EditorPane value={markdown} onChange={setMarkdown} />
+        <EditorPane
+          value={markdown}
+          onChange={handleChange}
+          onReset={handleReset}
+          lastSaved={lastSaved}
+        />
       </div>
 
       {/* Output panel — always visible, full-width on mobile */}

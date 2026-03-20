@@ -6,9 +6,11 @@ import { EditorToolbar } from "./editor-toolbar";
 interface EditorPaneProps {
   value: string;
   onChange: (value: string) => void;
+  onReset?: () => void;
+  lastSaved?: number | null;
 }
 
-export function EditorPane({ value, onChange }: EditorPaneProps) {
+export function EditorPane({ value, onChange, onReset, lastSaved }: EditorPaneProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pendingSelectionRef = useRef<{ start: number; end: number } | null>(
     null
@@ -31,6 +33,8 @@ export function EditorPane({ value, onChange }: EditorPaneProps) {
           value={value}
           onChange={onChange}
           pendingSelectionRef={pendingSelectionRef}
+          onReset={onReset}
+          lastSaved={lastSaved}
         />
       </div>
       <textarea

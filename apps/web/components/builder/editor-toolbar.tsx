@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import type { RefObject, MutableRefObject, ReactNode } from "react";
 import {
   Bold,
@@ -24,6 +25,8 @@ import {
   MousePointerClick,
   LayoutPanelTop,
   ChevronDown,
+  RotateCcw,
+  Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -41,6 +44,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { IconsModal } from "./icons-modal";
 import { ThemeModal } from "./theme-modal";
 import { CopyButton } from "./copy-button";
@@ -61,6 +75,8 @@ interface EditorToolbarProps {
   value: string;
   onChange: (value: string) => void;
   pendingSelectionRef: PendingSelection;
+  onReset?: () => void;
+  lastSaved?: number | null;
 }
 
 function ToolbarButton({
@@ -118,7 +134,18 @@ export function EditorToolbar({
   value,
   onChange,
   pendingSelectionRef,
+  onReset,
+  lastSaved,
 }: EditorToolbarProps) {
+  const [showSaved, setShowSaved] = useState(false);
+
+  useEffect(() => {
+    if (lastSaved == null) return;
+    setShowSaved(true);
+    const timer = setTimeout(() => setShowSaved(false), 2000);
+    return () => clearTimeout(timer);
+  }, [lastSaved]);
+
   const wrap = (prefix: string, suffix: string, placeholder: string) => {
     if (!textareaRef.current) return;
     wrapSelection(
@@ -461,14 +488,57 @@ export function EditorToolbar({
             </TooltipTrigger>
             <TooltipContent>Theme</TooltipContent>
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span>
-                <CopyButton text={value} />
+          <div className="ml-auto flex items-center gap-0.5">
+            {showSaved && (
+              <span className="mr-1 flex items-center gap-0.5 text-xs text-muted-foreground animate-in fade-in">
+                <Check className="size-3" />
+                Saved
               </span>
-            </TooltipTrigger>
-            <TooltipContent>Copy Markdown</TooltipContent>
-          </Tooltip>
+            )}
+
+            {onReset && (
+              <AlertDialog>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="ghost" size="icon-xs">
+                        <RotateCcw />
+                      </Button>
+                    </AlertDialogTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>Reset</TooltipContent>
+                </Tooltip>
+                <AlertDialogContent size="sm">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Reset to default?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This will replace the editor contents with the default
+                      template and clear your saved draft.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel size="sm">Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      size="sm"
+                      variant="destructive"
+                      onClick={onReset}
+                    >
+                      Reset
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span>
+                  <CopyButton text={value} />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>Copy Markdown</TooltipContent>
+            </Tooltip>
+          </div>
         </div>
       </div>
     </TooltipProvider>

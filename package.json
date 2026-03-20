@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "npm -w web run dev",
     "test": "turbo test",
     "lint": "turbo lint"
   }
