@@ -43,7 +43,7 @@
     "node": ">=18"
   },
   "scripts": {
-    "prepublishOnly": "cp ../../README.md .",
+    "prepublishOnly": "cp ../../README.md ../../LICENSE .",
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest"
