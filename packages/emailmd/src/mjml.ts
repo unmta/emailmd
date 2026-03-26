@@ -145,22 +145,20 @@ function renderHrSegment(theme: Theme): string {
     </mj-section>`;
 }
 
-const SEMANTIC_COLORS: Record<string, { bg: string; text: string }> = {
-  success: { bg: '#16a34a', text: '#ffffff' },
-  danger:  { bg: '#dc2626', text: '#ffffff' },
-  warning: { bg: '#d97706', text: '#ffffff' },
-};
-
 function resolveButtonColors(attrs: Record<string, string>, theme: Theme): { bgColor: string; textColor: string; border: string } {
   const customColor = attrs.color;
-  const semantic = attrs.variant && SEMANTIC_COLORS[attrs.variant];
+  const variant = attrs.variant;
 
   if (customColor) {
     return { bgColor: customColor, textColor: '#ffffff', border: '' };
-  } else if (semantic) {
-    return { bgColor: semantic.bg, textColor: semantic.text, border: '' };
-  } else if (attrs.variant === 'secondary') {
-    return { bgColor: 'transparent', textColor: theme.buttonColor, border: `border="2px solid ${theme.buttonColor}"` };
+  } else if (variant === 'success') {
+    return { bgColor: theme.successColor, textColor: theme.successTextColor, border: '' };
+  } else if (variant === 'danger') {
+    return { bgColor: theme.dangerColor, textColor: theme.dangerTextColor, border: '' };
+  } else if (variant === 'warning') {
+    return { bgColor: theme.warningColor, textColor: theme.warningTextColor, border: '' };
+  } else if (variant === 'secondary') {
+    return { bgColor: 'transparent', textColor: theme.secondaryTextColor, border: `border="2px solid ${theme.secondaryColor}"` };
   } else {
     return { bgColor: theme.buttonColor, textColor: theme.buttonTextColor, border: '' };
   }

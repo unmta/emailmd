@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { lightTheme, darkTheme, type Theme } from "emailmd";
 import { HexColorPicker } from "react-colorful";
 import { Paintbrush, X, ChevronsUpDown } from "lucide-react";
@@ -63,6 +64,29 @@ const COLOR_FIELDS: {
     key: "button_text_color",
     label: "Button Text",
     camelKey: "buttonTextColor",
+  },
+];
+
+// Paired so bg/text sit side-by-side in a 2-col grid
+const VARIANT_COLOR_PAIRS: {
+  bg: { key: string; label: string; camelKey: keyof Theme };
+  text?: { key: string; label: string; camelKey: keyof Theme };
+}[] = [
+  {
+    bg: { key: "secondary_color", label: "Secondary", camelKey: "secondaryColor" },
+    text: { key: "secondary_text_color", label: "Secondary Text", camelKey: "secondaryTextColor" },
+  },
+  {
+    bg: { key: "success_color", label: "Success", camelKey: "successColor" },
+    text: { key: "success_text_color", label: "Success Text", camelKey: "successTextColor" },
+  },
+  {
+    bg: { key: "danger_color", label: "Danger", camelKey: "dangerColor" },
+    text: { key: "danger_text_color", label: "Danger Text", camelKey: "dangerTextColor" },
+  },
+  {
+    bg: { key: "warning_color", label: "Warning", camelKey: "warningColor" },
+    text: { key: "warning_text_color", label: "Warning Text", camelKey: "warningTextColor" },
   },
 ];
 
@@ -157,6 +181,31 @@ export function ThemeModal({ markdown, onChange }: ThemeModalProps) {
                   onSet={(v) => handleSet(field.key, v)}
                   onRemove={() => handleRemove(field.key)}
                 />
+              ))}
+            </div>
+            <p className="text-sm font-medium mb-3 mt-4">Button Variants</p>
+            <div className="grid grid-cols-2 gap-3">
+              {VARIANT_COLOR_PAIRS.map(({ bg, text }) => (
+                <Fragment key={bg.key}>
+                  <ColorField
+                    label={bg.label}
+                    value={fm[bg.key]}
+                    defaultValue={baseTheme[bg.camelKey]}
+                    onSet={(v) => handleSet(bg.key, v)}
+                    onRemove={() => handleRemove(bg.key)}
+                  />
+                  {text ? (
+                    <ColorField
+                      label={text.label}
+                      value={fm[text.key]}
+                      defaultValue={baseTheme[text.camelKey]}
+                      onSet={(v) => handleSet(text.key, v)}
+                      onRemove={() => handleRemove(text.key)}
+                    />
+                  ) : (
+                    <div />
+                  )}
+                </Fragment>
               ))}
             </div>
           </div>

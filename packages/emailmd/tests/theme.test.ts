@@ -11,9 +11,31 @@ describe('theme', () => {
     expect(lightTheme.contentColor).toBe('#ffffff');
   });
 
+  it('lightTheme has correct button variant colors', () => {
+    expect(lightTheme.secondaryColor).toBe('#18181b');
+    expect(lightTheme.secondaryTextColor).toBe('#18181b');
+    expect(lightTheme.successColor).toBe('#16a34a');
+    expect(lightTheme.successTextColor).toBe('#ffffff');
+    expect(lightTheme.dangerColor).toBe('#dc2626');
+    expect(lightTheme.dangerTextColor).toBe('#ffffff');
+    expect(lightTheme.warningColor).toBe('#d97706');
+    expect(lightTheme.warningTextColor).toBe('#ffffff');
+  });
+
   it('darkTheme has dark background colors', () => {
     expect(darkTheme.backgroundColor).toBe('#09090b');
     expect(darkTheme.contentColor).toBe('#18181b');
+  });
+
+  it('darkTheme has correct button variant colors', () => {
+    expect(darkTheme.secondaryColor).toBe('#fafafa');
+    expect(darkTheme.secondaryTextColor).toBe('#fafafa');
+    expect(darkTheme.successColor).toBe('#16a34a');
+    expect(darkTheme.successTextColor).toBe('#ffffff');
+    expect(darkTheme.dangerColor).toBe('#dc2626');
+    expect(darkTheme.dangerTextColor).toBe('#ffffff');
+    expect(darkTheme.warningColor).toBe('#d97706');
+    expect(darkTheme.warningTextColor).toBe('#ffffff');
   });
 
   it('returns defaults when no overrides are provided', () => {
@@ -42,6 +64,13 @@ describe('theme', () => {
     expect(theme.buttonColor).toBe('#00FF00');
     expect(theme.fontFamily).toBe('Georgia, serif');
     expect(theme.backgroundColor).toBe(defaultTheme.backgroundColor);
+  });
+
+  it('merges button variant color overrides', () => {
+    const theme = mergeTheme({ successColor: '#059669', dangerColor: '#b91c1c' });
+    expect(theme.successColor).toBe('#059669');
+    expect(theme.dangerColor).toBe('#b91c1c');
+    expect(theme.warningColor).toBe(defaultTheme.warningColor);
   });
 
   it('merges overrides with a custom base theme', () => {

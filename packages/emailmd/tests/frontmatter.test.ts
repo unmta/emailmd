@@ -47,6 +47,30 @@ describe('frontmatterToThemeOverrides', () => {
     expect(overrides.buttonColor).toBe('#dc2626');
   });
 
+  it('converts button variant color keys', () => {
+    const meta = {
+      secondary_color: '#6366f1',
+      secondary_text_color: '#312e81',
+      success_color: '#059669',
+      success_text_color: '#000000',
+      danger_color: '#b91c1c',
+      danger_text_color: '#000000',
+      warning_color: '#b45309',
+      warning_text_color: '#000000',
+    };
+    const overrides = frontmatterToThemeOverrides(meta);
+    expect(overrides).toEqual({
+      secondaryColor: '#6366f1',
+      secondaryTextColor: '#312e81',
+      successColor: '#059669',
+      successTextColor: '#000000',
+      dangerColor: '#b91c1c',
+      dangerTextColor: '#000000',
+      warningColor: '#b45309',
+      warningTextColor: '#000000',
+    });
+  });
+
   it('ignores unknown keys', () => {
     const meta = { preheader: 'text', unknown_key: 'value' };
     const overrides = frontmatterToThemeOverrides(meta);

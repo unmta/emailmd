@@ -7,6 +7,14 @@ export interface Theme {
   cardColor: string;
   buttonColor: string;
   buttonTextColor: string;
+  secondaryColor: string;
+  secondaryTextColor: string;
+  successColor: string;
+  successTextColor: string;
+  dangerColor: string;
+  dangerTextColor: string;
+  warningColor: string;
+  warningTextColor: string;
   fontFamily: string;
   fontSize: string;
   lineHeight: string;
@@ -29,6 +37,14 @@ export const lightTheme: Theme = {
   cardColor: '#f4f4f5',
   buttonColor: '#18181b',
   buttonTextColor: '#fafafa',
+  secondaryColor: '#18181b',
+  secondaryTextColor: '#18181b',
+  successColor: '#16a34a',
+  successTextColor: '#ffffff',
+  dangerColor: '#dc2626',
+  dangerTextColor: '#ffffff',
+  warningColor: '#d97706',
+  warningTextColor: '#ffffff',
   ...sharedTypography,
 };
 
@@ -41,6 +57,14 @@ export const darkTheme: Theme = {
   cardColor: '#27272a',
   buttonColor: '#fafafa',
   buttonTextColor: '#18181b',
+  secondaryColor: '#fafafa',
+  secondaryTextColor: '#fafafa',
+  successColor: '#16a34a',
+  successTextColor: '#ffffff',
+  dangerColor: '#dc2626',
+  dangerTextColor: '#ffffff',
+  warningColor: '#d97706',
+  warningTextColor: '#ffffff',
   ...sharedTypography,
 };
 

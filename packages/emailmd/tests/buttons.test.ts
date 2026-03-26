@@ -174,6 +174,50 @@ describe('semantic button colors', () => {
   });
 });
 
+describe('custom button variant colors via theme', () => {
+  it('renders success button with custom theme color', () => {
+    const { html } = render('[OK](https://example.com){button.success}', { theme: { successColor: '#059669' } });
+    expect(html).toContain('#059669');
+    expect(html).not.toContain('#16a34a');
+  });
+
+  it('renders success button with custom text color', () => {
+    const { html } = render('[OK](https://example.com){button.success}', { theme: { successColor: '#86efac', successTextColor: '#000000' } });
+    expect(html).toContain('#86efac');
+    expect(html).toContain('#000000');
+  });
+
+  it('renders danger button with custom theme color', () => {
+    const { html } = render('[Delete](https://example.com){button.danger}', { theme: { dangerColor: '#b91c1c' } });
+    expect(html).toContain('#b91c1c');
+    expect(html).not.toContain('#dc2626');
+  });
+
+  it('renders warning button with custom theme color', () => {
+    const { html } = render('[Caution](https://example.com){button.warning}', { theme: { warningColor: '#b45309' } });
+    expect(html).toContain('#b45309');
+    expect(html).not.toContain('#d97706');
+  });
+
+  it('renders secondary button with custom theme color', () => {
+    const { html } = render('[More](https://example.com){button.secondary}', { theme: { secondaryColor: '#6366f1' } });
+    expect(html).toContain('#6366f1');
+    expect(html).toContain('2px solid');
+  });
+
+  it('renders secondary button with custom text color', () => {
+    const { html } = render('[More](https://example.com){button.secondary}', { theme: { secondaryColor: '#6366f1', secondaryTextColor: '#312e81' } });
+    expect(html).toContain('2px solid #6366f1');
+    expect(html).toContain('#312e81');
+  });
+
+  it('applies variant colors from frontmatter', () => {
+    const md = `---\nsuccess_color: "#059669"\n---\n\n[OK](https://example.com){button.success}`;
+    const { html } = render(md);
+    expect(html).toContain('#059669');
+  });
+});
+
 describe('button fallback', () => {
   it('renders fallback subcopy text below a button', () => {
     const { html } = render('[Reset Password](https://example.com/reset){button fallback}');
