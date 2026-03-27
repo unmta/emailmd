@@ -68,3 +68,13 @@ Works with button groups too — only buttons with `fallback` show their URL:
 ```markdown
 [Accept](https://example.com/accept){button fallback} [Decline](https://example.com/decline){button.secondary}
 ```
+
+### Custom Fallback Text
+
+Override the default fallback message with `fallback="custom text"` to support different languages or custom wording:
+
+```markdown
+[Réinitialiser](https://example.com/reset){button fallback="Si vous avez des difficultés, copiez cette URL :"}
+```
+
+The custom text is rendered before the URL link. When no value is provided (`fallback` without `="..."`), the default English message is used.
