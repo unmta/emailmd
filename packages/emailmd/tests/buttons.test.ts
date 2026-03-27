@@ -216,6 +216,20 @@ describe('button fallback', () => {
     expect(html).toContain('trouble clicking');
   });
 
+  it('renders custom fallback text when provided', () => {
+    const { html } = render('[Réinitialiser](https://example.com/reset){button fallback="Si vous avez des difficultés, copiez cette URL :"}');
+    expect(html).toContain('Si vous avez des difficultés');
+    expect(html).toContain('https://example.com/reset');
+    expect(html).not.toContain('trouble clicking');
+  });
+
+  it('renders custom fallback in button group', () => {
+    const { html } = render('[Accepter](https://example.com/accept){button fallback="Lien :"} [Refuser](https://example.com/decline){button.secondary}');
+    expect(html).toContain('Lien :');
+    expect(html).toContain('https://example.com/accept');
+    expect(html).not.toContain('trouble clicking');
+  });
+
   it('plain text is unchanged for fallback buttons', () => {
     const { text } = render('[Reset](https://example.com/reset){button fallback}');
     expect(text).toContain('Reset: https://example.com/reset');

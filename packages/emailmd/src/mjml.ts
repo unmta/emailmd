@@ -170,9 +170,16 @@ function renderButtonFallback(buttons: Array<Record<string, string>>, theme: The
   const fallbackButtons = buttons.filter(b => b.fallback);
   if (fallbackButtons.length === 0) return '';
 
-  const lines = fallbackButtons.map(b =>
-    `If you're having trouble clicking the &ldquo;${b.text}&rdquo; button, copy and paste this URL into your browser: <a href="${b.href}" style="color: ${theme.bodyColor}; word-break: break-all;">${b.href}</a>`
-  );
+  const defaultFallback = (text: string, href: string) =>
+    `If you&#x2019;re having trouble clicking the &ldquo;${text}&rdquo; button, copy and paste this URL into your browser: ${href}`;
+
+  const lines = fallbackButtons.map(b => {
+    const linkHtml = `<a href="${b.href}" style="color: ${theme.bodyColor}; word-break: break-all;">${b.href}</a>`;
+    const message = b.fallback !== 'true'
+      ? `${b.fallback} ${linkHtml}`
+      : `${defaultFallback(b.text, linkHtml)}`;
+    return message;
+  });
 
   return `<mj-section background-color="${theme.contentColor}" padding="0 32px">
       <mj-column>
