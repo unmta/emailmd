@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render } from '../src/index.js';
 
 describe('callout directive', () => {
@@ -73,6 +73,19 @@ describe('hero directive', () => {
     expect(text).toContain('Get started today!');
     expect(text).not.toContain('EMAILMD');
     expect(text).not.toContain('hero.jpg');
+  });
+
+  it('renders custom text color on hero', () => {
+    const { html } = render('::: hero https://example.com/hero.jpg?w=1200&h=800 color=#ffffff\n# Welcome\nSome text\n:::');
+    expect(html).toContain('#ffffff');
+    expect(html).toContain('https://example.com/hero.jpg?w=1200');
+    expect(html).toMatch(/h1[^>]*style="color: #ffffff"/);
+  });
+
+  it('accepts color param before URL', () => {
+    const { html } = render('::: hero color=#20ffff https://example.com/hero.jpg\n# Welcome\n:::');
+    expect(html).toContain('https://example.com/hero.jpg');
+    expect(html).toMatch(/h1[^>]*style="color: #20ffff"/);
   });
 });
 
