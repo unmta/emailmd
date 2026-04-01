@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { render } from '../src/index.js';
 
 describe('callout directive', () => {
@@ -220,5 +220,27 @@ More text after.`;
     expect(html).toContain('Some paragraph text.');
     expect(html).toContain('A callout');
     expect(html).toContain('More text after.');
+  });
+});
+
+describe('buttons inside directives', () => {
+  it('renders button inside hero with text', () => {
+    const { html } = render('::: hero https://example.com/hero.jpg\n# Welcome\n\n[Sign Up](https://example.com/signup){button}\n:::');
+    expect(html).toContain('Welcome');
+    expect(html).toContain('Sign Up');
+    expect(html).toContain('https://example.com/signup');
+  });
+
+  it('renders button inside callout', () => {
+    const { html } = render('::: callout\nCheck out our offer!\n\n[Learn More](https://example.com){button}\n:::');
+    expect(html).toContain('Check out our offer!');
+    expect(html).toContain('Learn More');
+    expect(html).toContain('https://example.com');
+  });
+
+  it('renders button group inside directive', () => {
+    const { html } = render('::: callout\n[Accept](https://example.com/yes){button} [Decline](https://example.com/no){button.secondary}\n:::');
+    expect(html).toContain('Accept');
+    expect(html).toContain('Decline');
   });
 });

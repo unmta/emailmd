@@ -279,7 +279,7 @@ function splitOnButtonPlaceholders(segments: Segment[], buttons: Segment[]): Seg
   const placeholderRe = /<!--EMAILMD:BUTTON_(\d+)-->/;
 
   for (const seg of segments) {
-    if (seg.type !== 'text') {
+    if (!placeholderRe.test(seg.content)) {
       result.push(seg);
       continue;
     }
@@ -289,14 +289,14 @@ function splitOnButtonPlaceholders(segments: Segment[], buttons: Segment[]): Seg
     while ((match = placeholderRe.exec(text)) !== null) {
       const before = text.slice(0, match.index);
       if (before.trim()) {
-        result.push({ type: 'text', content: before });
+        result.push({ ...seg, content: before });
       }
       const btn = buttons[parseInt(match[1], 10)];
       if (btn) result.push(btn);
       text = text.slice(match.index + match[0].length);
     }
     if (text.trim()) {
-      result.push({ type: 'text', content: text });
+      result.push({ ...seg, content: text });
     }
   }
 
