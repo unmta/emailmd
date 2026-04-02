@@ -75,6 +75,15 @@ describe('hero directive', () => {
     expect(text).not.toContain('hero.jpg');
   });
 
+  it('strips hero markers with color param in plain text output', () => {
+    const { text } = render('::: hero https://example.com/hero.jpg color=#ffffff\n# Welcome\nGet started!\n:::');
+    expect(text).toContain('WELCOME');
+    expect(text).toContain('Get started!');
+    expect(text).not.toContain('EMAILMD');
+    expect(text).not.toContain('hero.jpg');
+    expect(text).not.toContain('ffffff');
+  });
+
   it('renders custom text color on hero', () => {
     const { html } = render('::: hero https://example.com/hero.jpg?w=1200&h=800 color=#ffffff\n# Welcome\nSome text\n:::');
     expect(html).toContain('#ffffff');

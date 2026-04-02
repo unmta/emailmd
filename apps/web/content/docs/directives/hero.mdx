@@ -14,7 +14,22 @@ Get started with your new account today.
 
 The URL after `hero` is required and specifies the background image. All content inside the directive is overlaid on top of it.
 
-Text is centered and rendered in white for contrast against the background image. You can include any markdown content inside the hero — headings, paragraphs, buttons, and more:
+Text is centered and rendered in white for contrast against the background image.
+
+### Custom Text Color
+
+Override the text color with `color=`:
+
+```markdown
+::: hero https://example.com/hero.jpg color=#ffffff
+# Welcome
+Some text over the image.
+:::
+```
+
+This applies to all text inside the hero, including headings.
+
+You can include any markdown content inside the hero — headings, paragraphs, buttons, and more:
 
 ```markdown
 ::: hero https://example.com/sale-bg.jpg

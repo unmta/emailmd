@@ -10,6 +10,4 @@ export const MARKER_FOOTER_OPEN = '<!--EMAILMD:FOOTER_OPEN-->';
 export const MARKER_FOOTER_CLOSE = '<!--EMAILMD:FOOTER_CLOSE-->';
 export const MARKER_BUTTON = '<!--EMAILMD:BUTTON';
 export const MARKER_BUTTON_END = '-->';
-export const MARKER_HERO_OPEN = '<!--EMAILMD:HERO_OPEN url="';
-export const MARKER_HERO_OPEN_END = '"-->';
 export const MARKER_HERO_CLOSE = '<!--EMAILMD:HERO_CLOSE-->';
