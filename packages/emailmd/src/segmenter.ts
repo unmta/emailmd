@@ -284,19 +284,40 @@ function splitOnButtonPlaceholders(segments: Segment[], buttons: Segment[]): Seg
       continue;
     }
 
+    // Parse text parts and button references
     let text = seg.content;
     let match: RegExpExecArray | null;
+    const parts: Array<{ text: string } | { btn: Segment }> = [];
+
     while ((match = placeholderRe.exec(text)) !== null) {
       const before = text.slice(0, match.index);
-      if (before.trim()) {
-        result.push({ ...seg, content: before });
-      }
+      if (before.trim()) parts.push({ text: before });
       const btn = buttons[parseInt(match[1], 10)];
-      if (btn) result.push(btn);
+      if (btn) parts.push({ btn });
       text = text.slice(match.index + match[0].length);
     }
-    if (text.trim()) {
-      result.push({ ...seg, content: text });
+    if (text.trim()) parts.push({ text });
+
+    // Directive segments: keep buttons embedded so the directive wrapper is preserved
+    if (seg.type !== 'text') {
+      const textContent = parts
+        .filter((p): p is { text: string } => 'text' in p)
+        .map(p => p.text)
+        .join('');
+      const allAttrs = parts
+        .filter((p): p is { btn: Segment } => 'btn' in p)
+        .flatMap(p => p.btn.type === 'button-group' ? p.btn.buttons! : [p.btn.attrs!]);
+      result.push({ ...seg, content: textContent, buttons: allAttrs });
+      continue;
+    }
+
+    // Plain text segments: split into separate text and button segments
+    for (const part of parts) {
+      if ('text' in part) {
+        result.push({ ...seg, content: part.text });
+      } else {
+        result.push(part.btn);
+      }
     }
   }
 

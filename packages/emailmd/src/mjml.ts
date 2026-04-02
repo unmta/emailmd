@@ -84,25 +84,46 @@ function resolvePadding(value: string | undefined): string {
   return '20px 24px';
 }
 
+function renderEmbeddedButtons(buttons: Array<Record<string, string>>, theme: Theme): string {
+  return buttons.map(attrs => {
+    const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
+    const isFullWidth = attrs.width === 'full';
+    const widthAttr = isFullWidth ? ' width="100%"' : '';
+    return `<mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>`;
+  }).join('\n        ');
+}
+
 function renderCalloutSegment(segment: Segment, theme: Theme): string {
   const align = segment.attrs?.align || 'left';
   const bgColor = segment.attrs?.bg || theme.cardColor;
   const textColor = segment.attrs?.color || theme.bodyColor;
   const padding = resolvePadding(segment.attrs?.padding);
-  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
-        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderCenteredSegment(segment: Segment, theme: Theme): string {
   const textColor = segment.attrs?.color || theme.bodyColor;
-  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="center" font-size="${theme.fontSize}" color="${textColor}">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
-        <mj-text align="center" font-size="${theme.fontSize}" color="${textColor}">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderHighlightSegment(segment: Segment, theme: Theme): string {
@@ -110,31 +131,49 @@ function renderHighlightSegment(segment: Segment, theme: Theme): string {
   const bgColor = segment.attrs?.bg || theme.brandColor;
   const textColor = segment.attrs?.color || theme.buttonTextColor;
   const padding = resolvePadding(segment.attrs?.padding);
-  return `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
-        <mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderHeaderSegment(segment: Segment, theme: Theme): string {
   const align = segment.attrs?.align || 'center';
   const textColor = segment.attrs?.color || theme.bodyColor;
-  return `<mj-section padding="32px 32px 24px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section padding="32px 32px 24px 32px">
       <mj-column>
-        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderFooterSegment(segment: Segment, theme: Theme): string {
   const align = segment.attrs?.align || 'center';
   const textColor = segment.attrs?.color || theme.bodyColor;
-  return `<mj-section padding="24px 32px 32px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section padding="24px 32px 32px 32px">
       <mj-column>
-        <mj-text align="${align}" font-size="13px" color="${textColor}" line-height="1.5">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderHrSegment(theme: Theme): string {
@@ -250,11 +289,17 @@ function renderImageSegment(segment: Segment, theme: Theme): string {
 
 function renderHeroSegment(segment: Segment, theme: Theme): string {
   const url = segment.attrs?.url || '';
-  return `<mj-section background-url="${url}" background-size="cover" background-repeat="no-repeat" padding="40px 32px">
+  const textMjml = segment.content
+    ? `<mj-text align="center" color="${theme.buttonTextColor}">${processInlineImages(segment.content)}</mj-text>`
+    : '';
+  const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
+  let mjml = `<mj-section background-url="${url}" background-size="cover" background-repeat="no-repeat" padding="40px 32px">
       <mj-column>
-        <mj-text align="center" color="${theme.buttonTextColor}">${processInlineImages(segment.content)}</mj-text>
+        ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
+  if (segment.buttons) mjml += renderButtonFallback(segment.buttons, theme);
+  return mjml;
 }
 
 function renderTableSegment(segment: Segment, theme: Theme): string {
