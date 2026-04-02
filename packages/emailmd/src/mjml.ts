@@ -1,6 +1,6 @@
 import mjml2html from 'mjml';
-import type { Theme } from './theme.js';
 import type { Segment } from './segmenter.js';
+import type { Theme } from './theme.js';
 
 export interface WrapperMeta {
   preheader?: string;
@@ -289,9 +289,15 @@ function renderImageSegment(segment: Segment, theme: Theme): string {
 
 function renderHeroSegment(segment: Segment, theme: Theme): string {
   const url = segment.attrs?.url || '';
-  const textMjml = segment.content
-    ? `<mj-text align="center" color="${theme.buttonTextColor}">${processInlineImages(segment.content)}</mj-text>`
-    : '';
+  const heroColor = segment.attrs?.color || theme.buttonTextColor;
+  let textMjml = '';
+  if (segment.content) {
+    let content = processInlineImages(segment.content);
+    if (segment.attrs?.color) {
+      content = content.replace(/<(h[1-3])([\s>])/g, `<$1 style="color: ${segment.attrs.color}"$2`);
+    }
+    textMjml = `<mj-text align="center" color="${heroColor}">${content}</mj-text>`;
+  }
   const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
   let mjml = `<mj-section background-url="${url}" background-size="cover" background-repeat="no-repeat" padding="40px 32px">
       <mj-column>

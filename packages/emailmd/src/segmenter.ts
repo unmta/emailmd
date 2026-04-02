@@ -29,6 +29,7 @@ const PARAMETERIZED_DIRECTIVES: Array<{
   { re: /<!--EMAILMD:HIGHLIGHT_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'highlight', close: MARKER_HIGHLIGHT_CLOSE },
   { re: /<!--EMAILMD:HEADER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'header', close: MARKER_HEADER_CLOSE },
   { re: /<!--EMAILMD:FOOTER_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'footer', close: MARKER_FOOTER_CLOSE },
+  { re: /<!--EMAILMD:HERO_OPEN((?:\s+[\w-]+="[^"]*")*)-->/, type: 'hero', close: MARKER_HERO_CLOSE },
 ];
 
 function parseMarkerAttrs(attrString: string): Record<string, string> {
@@ -199,8 +200,6 @@ function splitOnImages(segments: Segment[]): Segment[] {
   return result;
 }
 
-const HERO_OPEN_RE = /<!--EMAILMD:HERO_OPEN url="([^"]*)"-->/;
-
 function splitOnDirectives(html: string): Segment[] {
   const segments: Segment[] = [];
   let remaining = html;
@@ -230,17 +229,6 @@ function splitOnDirectives(html: string): Segment[] {
       }
     }
 
-    // Check hero open marker (regex-based, competes for earliest position)
-    const heroMatch = HERO_OPEN_RE.exec(remaining);
-    if (heroMatch && (earliest === null || heroMatch.index < earliest.pos)) {
-      earliest = {
-        pos: heroMatch.index,
-        type: 'hero',
-        openLen: heroMatch[0].length,
-        close: MARKER_HERO_CLOSE,
-        attrs: { url: heroMatch[1] },
-      };
-    }
 
     if (!earliest) {
       if (remaining.trim()) {
