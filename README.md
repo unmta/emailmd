@@ -31,20 +31,20 @@ Thanks for signing up.
 
 ## CLI
 
-Email.md also ships with a command-line interface — no extra package needed.
+Email.md also ships with a command-line interface.
 
 ```bash
 # Render to HTML
 emailmd input.md
-
-# Pipe from stdin
-cat input.md | emailmd
 
 # Write to file
 emailmd input.md -o output.html
 
 # Plain text output
 emailmd input.md --text
+
+# Pipe from another command
+echo "# Hello" | emailmd
 ```
 
 Run `emailmd --help` for all options.

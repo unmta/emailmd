@@ -25,8 +25,7 @@ Examples:
   emailmd input.md
   emailmd input.md -o output.html
   emailmd input.md --text
-  cat input.md | emailmd
-  cat input.md | emailmd -o output.html
+  echo "# Hello" | emailmd
 `.trimStart();
 
 function readStdin(): Promise<string> {
@@ -53,7 +52,8 @@ async function main(): Promise<void> {
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     process.stderr.write(`emailmd: ${msg}\nRun 'emailmd --help' for usage.\n`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   const { values, positionals } = args;
@@ -70,7 +70,8 @@ async function main(): Promise<void> {
 
   if (positionals.length > 1) {
     process.stderr.write(`emailmd: expected at most one positional argument, got ${positionals.length}\nRun 'emailmd --help' for usage.\n`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   let markdown: string;
@@ -79,15 +80,18 @@ async function main(): Promise<void> {
     const file = positionals[0];
     try {
       markdown = readFileSync(file, 'utf-8');
-    } catch {
-      process.stderr.write(`emailmd: cannot read file '${file}'\n`);
-      process.exit(1);
+    } catch (err: unknown) {
+      const detail = err instanceof Error ? err.message : String(err);
+      process.stderr.write(`emailmd: cannot read file '${file}': ${detail}\n`);
+      process.exitCode = 1;
+      return;
     }
   } else if (!process.stdin.isTTY) {
     markdown = await readStdin();
   } else {
     process.stderr.write(`emailmd: no input provided\nRun 'emailmd --help' for usage.\n`);
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   const result = render(markdown);
@@ -96,12 +100,17 @@ async function main(): Promise<void> {
   if (values.output) {
     try {
       writeFileSync(values.output, output);
-    } catch {
-      process.stderr.write(`emailmd: cannot write to '${values.output}'\n`);
-      process.exit(1);
+    } catch (err: unknown) {
+      const detail = err instanceof Error ? err.message : String(err);
+      process.stderr.write(`emailmd: cannot write to '${values.output}': ${detail}\n`);
+      process.exitCode = 1;
+      return;
     }
   } else {
     process.stdout.write(output);
+    if (output.length > 0 && !output.endsWith('\n')) {
+      process.stdout.write('\n');
+    }
   }
 }
 
