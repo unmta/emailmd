@@ -8,13 +8,17 @@
     "html-email",
     "email-template",
     "newsletter",
-    "mjml"
+    "mjml",
+    "cli"
   ],
   "license": "MIT",
   "author": "Dan Stevens",
   "homepage": "https://emailmd.dev",
   "repository": "github:unmta/emailmd",
   "bugs": "https://github.com/unmta/emailmd/issues",
+  "bin": {
+    "emailmd": "dist/cli.js"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

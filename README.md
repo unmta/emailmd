@@ -29,6 +29,26 @@ Thanks for signing up.
 // text → plain text version for text/plain MIME part
 ```
 
+## CLI
+
+Email.md also ships with a command-line interface — no extra package needed.
+
+```bash
+# Render to HTML
+emailmd input.md
+
+# Pipe from stdin
+cat input.md | emailmd
+
+# Write to file
+emailmd input.md -o output.html
+
+# Plain text output
+emailmd input.md --text
+```
+
+Run `emailmd --help` for all options.
+
 ## Learn More
 
 - [Docs](https://www.emailmd.dev/docs) — full syntax reference, theming, frontmatter, directives, and API
