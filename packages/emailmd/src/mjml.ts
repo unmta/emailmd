@@ -39,7 +39,7 @@ export function buildHead(theme: Theme, preheader?: string): string {
 }
 
 function processInlineImages(html: string): string {
-  return html.replace(/<img\s[^>]*?\b(?:valign|float)="[^"]*"[^>]*?\/?>/g, (tag) => {
+  return html.replace(/<img\s[^>]*?\b(?:valign|float|border-radius)="[^"]*"[^>]*?\/?>/g, (tag) => {
     const styles: string[] = [];
 
     // Extract and remove valign
@@ -56,6 +56,13 @@ function processInlineImages(html: string): string {
       styles.push(`float: ${dir}`);
       styles.push(dir === 'right' ? 'margin: 0 0 8px 12px' : 'margin: 0 12px 8px 0');
       tag = tag.replace(/\s*\bfloat="[^"]*"/, '');
+    }
+
+    // Extract and remove border-radius
+    const borderRadiusMatch = tag.match(/\bborder-radius="([^"]*)"/);
+    if (borderRadiusMatch) {
+      styles.push(`border-radius: ${borderRadiusMatch[1]}`);
+      tag = tag.replace(/\s*\bborder-radius="[^"]*"/, '');
     }
 
     if (styles.length === 0) return tag;

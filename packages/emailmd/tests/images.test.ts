@@ -116,6 +116,18 @@ describe('image support', () => {
       expect(html).toContain('width="80"');
       expect(html).toContain('float: left');
     });
+
+    it('applies border-radius on inline images inside callouts', () => {
+      const { html } = render('::: callout\n![](https://example.com/dog.jpg){width=120 border-radius="10%"}\n:::');
+      expect(html).toContain('border-radius: 10%');
+      expect(html).not.toContain('border-radius="10%"');
+    });
+
+    it('combines border-radius with other inline image styles', () => {
+      const { html } = render('::: callout\n![](https://example.com/photo.jpg){valign="top" border-radius="8px"}\n:::');
+      expect(html).toContain('vertical-align: top');
+      expect(html).toContain('border-radius: 8px');
+    });
   });
 
   describe('images with surrounding content', () => {
