@@ -29,6 +29,7 @@ const themeKeys: Set<string> = new Set([
   'font_size',
   'line_height',
   'content_width',
+  'border_radius',
 ]);
 
 function snakeToCamel(s: string): string {

@@ -71,6 +71,12 @@ describe('frontmatterToThemeOverrides', () => {
     });
   });
 
+  it('converts border_radius to borderRadius', () => {
+    const meta = { border_radius: '12px' };
+    const overrides = frontmatterToThemeOverrides(meta);
+    expect(overrides).toEqual({ borderRadius: '12px' });
+  });
+
   it('ignores unknown keys', () => {
     const meta = { preheader: 'text', unknown_key: 'value' };
     const overrides = frontmatterToThemeOverrides(meta);

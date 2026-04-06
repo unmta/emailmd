@@ -19,6 +19,7 @@ export interface Theme {
   fontSize: string;
   lineHeight: string;
   contentWidth: string;
+  borderRadius: string;
 }
 
 const sharedTypography = {
@@ -26,6 +27,7 @@ const sharedTypography = {
   fontSize: '16px',
   lineHeight: '1.6',
   contentWidth: '600px',
+  borderRadius: '8px',
 };
 
 export const lightTheme: Theme = {

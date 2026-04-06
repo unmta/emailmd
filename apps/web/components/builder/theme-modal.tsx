@@ -98,6 +98,7 @@ const TEXT_FIELDS: {
   { key: "font_size", label: "Font Size", camelKey: "fontSize" },
   { key: "line_height", label: "Line Height", camelKey: "lineHeight" },
   { key: "content_width", label: "Content Width", camelKey: "contentWidth" },
+  { key: "border_radius", label: "Border Radius", camelKey: "borderRadius" },
 ];
 
 const FONT_OPTIONS: { label: string; value: string }[] = [

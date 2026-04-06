@@ -11,6 +11,14 @@ describe('theme', () => {
     expect(lightTheme.contentColor).toBe('#ffffff');
   });
 
+  it('lightTheme has default borderRadius', () => {
+    expect(lightTheme.borderRadius).toBe('8px');
+  });
+
+  it('darkTheme has default borderRadius', () => {
+    expect(darkTheme.borderRadius).toBe('8px');
+  });
+
   it('lightTheme has correct button variant colors', () => {
     expect(lightTheme.secondaryColor).toBe('#18181b');
     expect(lightTheme.secondaryTextColor).toBe('#18181b');

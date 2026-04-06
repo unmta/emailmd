@@ -208,6 +208,38 @@ describe('footer directive with params', () => {
   });
 });
 
+describe('border-radius on directives', () => {
+  it('renders custom border-radius on callout', () => {
+    const { html } = render('::: callout border-radius=16px\nRounded callout\n:::');
+    expect(html).toContain('Rounded callout');
+    expect(html).toContain('border-radius:16px');
+  });
+
+  it('renders custom border-radius on highlight', () => {
+    const { html } = render('::: highlight border-radius=0\nSharp highlight\n:::');
+    expect(html).toContain('Sharp highlight');
+    expect(html).toContain('border-radius:0');
+  });
+
+  it('applies theme borderRadius to callout when no per-directive override', () => {
+    const { html } = render('::: callout\nCallout text\n:::', { theme: { borderRadius: '20px' } });
+    expect(html).toContain('Callout text');
+    expect(html).toContain('border-radius:20px');
+  });
+
+  it('applies theme borderRadius to highlight when no per-directive override', () => {
+    const { html } = render('::: highlight\nHighlight text\n:::', { theme: { borderRadius: '20px' } });
+    expect(html).toContain('Highlight text');
+    expect(html).toContain('border-radius:20px');
+  });
+
+  it('per-directive border-radius overrides theme on callout', () => {
+    const { html } = render('::: callout border-radius=0\nSharp callout\n:::', { theme: { borderRadius: '20px' } });
+    expect(html).toContain('border-radius:0');
+    expect(html).not.toContain('border-radius:20px');
+  });
+});
+
 describe('multiple directives', () => {
   it('renders multiple directives in sequence', () => {
     const md = `::: callout

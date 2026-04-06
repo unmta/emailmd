@@ -89,7 +89,8 @@ function renderEmbeddedButtons(buttons: Array<Record<string, string>>, theme: Th
     const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
     const isFullWidth = attrs.width === 'full';
     const widthAttr = isFullWidth ? ' width="100%"' : '';
-    return `<mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>`;
+    const borderRadius = attrs['border-radius'] || theme.borderRadius;
+    return `<mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="${borderRadius}" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>`;
   }).join('\n        ');
 }
 
@@ -98,12 +99,13 @@ function renderCalloutSegment(segment: Segment, theme: Theme): string {
   const bgColor = segment.attrs?.bg || theme.cardColor;
   const textColor = segment.attrs?.color || theme.bodyColor;
   const padding = resolvePadding(segment.attrs?.padding);
+  const borderRadius = segment.attrs?.['border-radius'] || theme.borderRadius;
   const textMjml = segment.content
     ? `<mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" line-height="${theme.lineHeight}">${processInlineImages(segment.content)}</mj-text>`
     : '';
   const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
   let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
-      <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
+      <mj-column background-color="${bgColor}" border-radius="${borderRadius}" padding="${padding}">
         ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
@@ -131,12 +133,13 @@ function renderHighlightSegment(segment: Segment, theme: Theme): string {
   const bgColor = segment.attrs?.bg || theme.brandColor;
   const textColor = segment.attrs?.color || theme.buttonTextColor;
   const padding = resolvePadding(segment.attrs?.padding);
+  const borderRadius = segment.attrs?.['border-radius'] || theme.borderRadius;
   const textMjml = segment.content
     ? `<mj-text align="${align}" font-size="${theme.fontSize}" color="${textColor}" font-weight="600">${processInlineImages(segment.content)}</mj-text>`
     : '';
   const buttonMjml = segment.buttons ? renderEmbeddedButtons(segment.buttons, theme) : '';
   let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
-      <mj-column background-color="${bgColor}" border-radius="8px" padding="${padding}">
+      <mj-column background-color="${bgColor}" border-radius="${borderRadius}" padding="${padding}">
         ${textMjml}${buttonMjml}
       </mj-column>
     </mj-section>`;
@@ -230,10 +233,11 @@ function renderButtonSegment(segment: Segment, theme: Theme): string {
   const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
   const isFullWidth = attrs.width === 'full';
   const widthAttr = isFullWidth ? ' width="100%"' : '';
+  const borderRadius = attrs['border-radius'] || theme.borderRadius;
 
   let mjml = `<mj-section background-color="${theme.contentColor}" padding="8px 32px">
       <mj-column>
-        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
+        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="${borderRadius}" inner-padding="14px 32px"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
       </mj-column>
     </mj-section>`;
 
@@ -247,9 +251,10 @@ function renderButtonGroupSegment(segment: Segment, theme: Theme): string {
     const { bgColor, textColor, border } = resolveButtonColors(attrs, theme);
     const isFullWidth = attrs.width === 'full';
     const widthAttr = isFullWidth ? ' width="100%"' : '';
+    const borderRadius = attrs['border-radius'] || theme.borderRadius;
 
     return `<mj-column>
-        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="8px" inner-padding="14px 32px" padding="10px 0"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
+        <mj-button background-color="${bgColor}" color="${textColor}" font-size="16px" font-weight="600" border-radius="${borderRadius}" inner-padding="14px 32px" padding="10px 0"${widthAttr} ${border} href="${attrs.href}">${attrs.text}</mj-button>
       </mj-column>`;
   }).join('\n      ');
 

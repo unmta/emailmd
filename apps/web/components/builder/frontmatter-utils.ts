@@ -21,6 +21,7 @@ const THEME_KEYS = new Set([
   "font_size",
   "line_height",
   "content_width",
+  "border_radius",
   "theme",
 ]);
 

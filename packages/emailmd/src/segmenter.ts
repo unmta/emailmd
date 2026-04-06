@@ -46,8 +46,8 @@ function parseMarkerAttrs(attrString: string): Record<string, string> {
 const BUTTON_PARA_RE = /<p>\s*((?:<a\s+[^>]*>[^<]*<\/a>\s*)+)<\/p>/g;
 const INNER_LINK_RE = /<a\s+([^>]*)>([^<]*)<\/a>/g;
 
-function parseButtonAttrs(attrString: string): { isButton: boolean; href: string; variant?: string; color?: string; width?: string; fallback?: string } {
-  const result = { isButton: false, href: '', variant: undefined as string | undefined, color: undefined as string | undefined, width: undefined as string | undefined, fallback: undefined as string | undefined };
+function parseButtonAttrs(attrString: string): { isButton: boolean; href: string; variant?: string; color?: string; width?: string; fallback?: string; borderRadius?: string } {
+  const result = { isButton: false, href: '', variant: undefined as string | undefined, color: undefined as string | undefined, width: undefined as string | undefined, fallback: undefined as string | undefined, borderRadius: undefined as string | undefined };
 
   // Check for button attribute with optional variant (secondary, success, danger, warning)
   const variantMatch = attrString.match(/\bbutton\.(secondary|success|danger|warning)\b/);
@@ -80,6 +80,10 @@ function parseButtonAttrs(attrString: string): { isButton: boolean; href: string
     result.fallback = 'true';
   }
 
+  // Extract border-radius attribute (from {button border-radius="16px"})
+  const borderRadiusMatch = attrString.match(/\bborder-radius="([^"]*)"/);
+  if (borderRadiusMatch) result.borderRadius = borderRadiusMatch[1];
+
   return result;
 }
 
@@ -106,6 +110,7 @@ function extractButtons(html: string): { html: string; buttons: Segment[] } {
       if (parsed.color) attrs.color = parsed.color;
       if (parsed.width) attrs.width = parsed.width;
       if (parsed.fallback) attrs.fallback = parsed.fallback;
+      if (parsed.borderRadius) attrs['border-radius'] = parsed.borderRadius;
       buttons.push({ type: 'button', content: text, attrs });
     } else {
       const groupButtons = links.map(({ parsed, text }) => {
@@ -114,6 +119,7 @@ function extractButtons(html: string): { html: string; buttons: Segment[] } {
         if (parsed.color) attrs.color = parsed.color;
         if (parsed.width) attrs.width = parsed.width;
         if (parsed.fallback) attrs.fallback = parsed.fallback;
+        if (parsed.borderRadius) attrs['border-radius'] = parsed.borderRadius;
         return attrs;
       });
       buttons.push({ type: 'button-group', content: '', buttons: groupButtons });

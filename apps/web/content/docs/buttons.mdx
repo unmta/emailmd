@@ -53,6 +53,18 @@ This works with any variant or custom color:
 [Shop Sale](https://example.com){button color="#dc2626" width="full"}
 ```
 
+## Border Radius
+
+Override the default border radius (`8px`) on individual buttons with `border-radius="..."`:
+
+```markdown
+[Get Started](https://example.com){button border-radius="24px"}
+
+[Sharp](https://example.com){button border-radius="0"}
+```
+
+To change the default border radius for all buttons (and callouts/highlights), set `border_radius` in [frontmatter](/docs/frontmatter) or via the [theme API](/docs/theme).
+
 ## Button Fallback
 
 Add a fallback URL below a button for accessibility. Some email clients block or strip buttons, so providing the raw URL ensures recipients can still take action:

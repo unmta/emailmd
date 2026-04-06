@@ -218,6 +218,45 @@ describe('custom button variant colors via theme', () => {
   });
 });
 
+describe('button border-radius', () => {
+  it('renders {button border-radius="16px"} with custom border radius', () => {
+    const { html } = render('[Click](https://example.com){button border-radius="16px"}');
+    expect(html).toContain('border-radius:16px');
+    expect(html).not.toContain('border-radius:8px');
+  });
+
+  it('applies theme borderRadius to buttons', () => {
+    const { html } = render('[Click](https://example.com){button}', { theme: { borderRadius: '12px' } });
+    expect(html).toContain('border-radius:12px');
+    expect(html).not.toContain('border-radius:8px');
+  });
+
+  it('per-button border-radius overrides theme', () => {
+    const { html } = render('[Click](https://example.com){button border-radius="0"}', { theme: { borderRadius: '12px' } });
+    expect(html).toContain('border-radius:0');
+    expect(html).not.toContain('border-radius:12px');
+  });
+
+  it('applies theme borderRadius in button groups', () => {
+    const { html } = render('[A](https://a.com){button} [B](https://b.com){button.secondary}', { theme: { borderRadius: '20px' } });
+    expect(html).toContain('border-radius:20px');
+    expect(html).not.toContain('border-radius:8px');
+  });
+
+  it('allows mixed border-radius in button groups', () => {
+    const { html } = render('[A](https://a.com){button border-radius="0"} [B](https://b.com){button}');
+    expect(html).toContain('border-radius:0');
+    expect(html).toContain('border-radius:8px');
+  });
+
+  it('applies border_radius from frontmatter to buttons', () => {
+    const md = `---\nborder_radius: "24px"\n---\n\n[Click](https://example.com){button}`;
+    const { html } = render(md);
+    expect(html).toContain('border-radius:24px');
+    expect(html).not.toContain('border-radius:8px');
+  });
+});
+
 describe('button fallback', () => {
   it('renders fallback subcopy text below a button', () => {
     const { html } = render('[Reset Password](https://example.com/reset){button fallback}');
